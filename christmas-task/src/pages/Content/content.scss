@@ -1,0 +1,25 @@
+.content-title {
+    font-size: 42px;
+    line-height: 46px;
+    text-transform: uppercase;
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+.main {
+    background-color: rgb(27, 83, 10);
+}
+.content {
+    display: flex; 
+    .filters {
+        width: 40%;
+        height: 100px;
+    }  
+    .nav {
+        display: flex;
+    } 
+    .toys {
+        width: 60%;
+    }
+}

@@ -1,0 +1,49 @@
+.home {
+    background: url(../../assets/bg2.jpg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    .wrapper {
+        display: flex;
+        position: relative;
+        align-items: center;
+        flex-direction: column;
+        width: 593px;
+        margin: 0 auto;
+    }
+    .blur {
+        border: 2px solid rgb(129,25,12);
+        background: radial-gradient(118.88% 606.86% at 0% 0%, rgba(36, 197, 219, 0.15) 0%, rgba(36, 197, 219, 0) 100%);
+        backdrop-filter: blur(31px);
+        border-radius: 30px;
+    }
+    .title {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        height: 249px;
+        margin-top: 40%;
+        margin-bottom: 113px;
+        z-index: 2;
+    }
+    .title-text {
+        width: 423px;
+        font-size: 35px;
+        line-height: 58px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .content-link {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        width: 320px;
+        height: 54px;
+        text-decoration: none;
+        color: white;
+        z-index: 2;
+    }
+}
