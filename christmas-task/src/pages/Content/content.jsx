@@ -27,20 +27,37 @@ export function Content() {
     const isMid = useRef()
     const isBig = useRef()
     const isFavorite = useRef()
-    const [currentArr, setCurrentArr] = useState([]);
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
     const [sliderValues, setSliderValues] = useState([1940,2021]); 
     const [sliderCount, setSliderCount] = useState([1,12]);
     const [toyCounter, setToyCounter] = useState(0);
 
-    function checkboxFilter() {
+    function checkboxFilter(val) {
         const filters = {
             shape: false,
             color: false,
             size: false,
-            favorite: false
+            favorite: false,
+            year1: sliderValues[0],
+            year2: sliderValues[1],
+            count1: sliderCount[0],
+            count2: sliderCount[1],
+            name: '', 
         }
+
+        function setYearFilter (val) {
+            setSliderValues(val)
+            filters.year1 = val[0]
+            filters.year2 = val[1]
+        }
+    
+        function setCountFilter (val) {
+            setSliderCount(val)
+            filters.count1 = val[0]
+            filters.count2 = val[1]
+        }
+
         function setFilter() {
             if (isBall.current.checked) { 
                 filters.shape1 = 'шар' 
@@ -100,110 +117,148 @@ export function Content() {
             }
         }
 
-        setFilter()
-
         function logic(item) {
             //форма
             if (filters.shape && !filters.color && !filters.size && !filters.favorite) {
-                return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
+                return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)                
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //цвет
              else if (!filters.shape && filters.color && !filters.size && !filters.favorite) {
                 return (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //размер
              else if (!filters.shape && !filters.color && filters.size && !filters.favorite) {
                 return (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //любимое
             else if (!filters.shape && !filters.color && !filters.size && filters.favorite) {
-                return (item.favorite)
+                return (item.favorite) 
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //форма+цвет
             else if (filters.shape && filters.color && !filters.size && !filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
-                && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5) 
+                && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name))) 
             } //размер+цвет
             else if (!filters.shape && filters.color && filters.size && !filters.favorite) {
                 return (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //форма+размер 
             else if (filters.shape && !filters.color && filters.size && !filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //форма+любимое
             else if (filters.shape && !filters.color && !filters.size && filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.favorite)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //цвет+любимое
             else if (!filters.shape && filters.color && !filters.size && filters.favorite) {
                 return (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
                 && (item.favorite)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } //размер+любимое 
             else if (!filters.shape && !filters.color && filters.size && filters.favorite) {
                 return (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
                 && (item.favorite)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             }// форма+размер+любимое 
             else if (filters.shape && !filters.color && filters.size && filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.favorite)
                 && (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             }// форма+цвет+любимое
             else if(filters.shape && filters.color && !filters.size && filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.favorite)
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             }//размер+цвет+любимое
             else if (!filters.shape && filters.color && filters.size && filters.favorite) {
                 return (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
                 && (item.favorite)
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } // форма+размер+цвет
             else if (filters.shape && filters.color && filters.size && !filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
                 && (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
+                && (item.year >= filters.year1 && item.year <= filters.year2) && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } // форма+размер+цвет+любимое
             else if (filters.shape && filters.color && filters.size && filters.favorite) {
                 return (item.shape === filters.shape1 || item.shape === filters.shape2 || item.shape === filters.shape3 || item.shape === filters.shape4 || item.shape === filters.shape5)
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
                 && (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
                 && (item.favorite)
+                && (item.year >= filters.year1 && item.year <= filters.year2) 
+                && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name)))
             } else if (!filters.shape && !filters.color && !filters.size && !filters.favorite) {
-                return true
+                return ((item.year >= filters.year1 && item.year <= filters.year2) 
+                && (item.count >= filters.count1 && item.count <= filters.count2)
+                && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name))))
             }       
         }
 
-        setCards(data.filter(el => logic(el)))
-        setCurrentArr(data.filter(el => logic(el)))
-    }
+        function sortAfterFilte(sort) {
+            if (sort === 'title') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.name.localeCompare(b.name)))
+            } else if (sort === 'titleReverse') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.name.localeCompare(b.name)).reverse())
+            } else if (sort === 'number') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.count - b.count))
+            } else if (sort === 'numberReverse') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.count - b.count).reverse())
+            }
+        }
 
-    function search(e) {
-        setTitle(e.target.value)
-        if(isBall.current.checked || isBell.current.checked || isCone.current.checked || isSnowflake.current.checked || isFigurine.current.checked) {
-            setCards(currentArr.filter( item => item.name.toLowerCase().includes(e.target.value)))
+        if (Array.isArray(val)) {
+            val[1] < 1000 ? setCountFilter(val) : setYearFilter(val)
+        } else if (val.target.type === 'text') {
+            setTitle(val.target.value)
+            filters.name = val.target.value
+        }
+
+        setFilter()
+
+
+        if (selectedSort !== '') {
+            sortAfterFilte(selectedSort)
         } else {
-            setCards(data.filter( item => item.name.toLowerCase().includes(e.target.value)))
+            setCards(data.filter(el => logic(el)))
         }
     }
 
-    function sortCards(target,sort) {
+
+    function sortCards(sort) {
         setSelectedSort(sort)
         if (sort === 'title') {
-            setCards(target.sort((a,b) => a.name.localeCompare(b.name)))
+            setCards(cards.sort((a,b) => a.name.localeCompare(b.name)))
         } else if (sort === 'titleReverse') {
-            setCards(target.sort((a,b) => a.name.localeCompare(b.name)).reverse())
+            setCards(cards.sort((a,b) => a.name.localeCompare(b.name)).reverse())
         } else if (sort === 'number') {
-            setCards(target.sort((a,b) => a.count - b.count))
-        } else {
-            setCards(target.sort((a,b) => a.count - b.count).reverse())
+            setCards(cards.sort((a,b) => a.count - b.count))
+        } else if (sort === 'numberReverse') {
+            setCards(cards.sort((a,b) => a.count - b.count).reverse())
         }
-    }
-
-    function yearFilter (val) {
-        setSliderValues(val)
-        setCards(cards.filter(item => item.year >= val[0] && item.year <= val[1]))
-    }
-
-    function countFilter (val) {
-        setSliderCount(val)
-        setCards(cards.filter(item => item.count >= val[0] && item.count <= val[1]))
     }
 
     function cardActivator(e) {
@@ -226,7 +281,7 @@ export function Content() {
                 <MyInput value={title} 
                     type="text" 
                     placeholder='Поиск'
-                    onChange={e => search(e)}
+                    onChange={e => checkboxFilter(e)}
                 />
             </div>
             <div className="toy-counter">
@@ -251,11 +306,11 @@ export function Content() {
             </div>
             <div className="count-slider">
                 <h2>Количество экземпляров</h2>
-                <Range className='count-slider' min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={value => countFilter(value)}/>
+                <Range className='count-slider' allowCross={false} min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={(value) => checkboxFilter(value)}/>
             </div>
             <div className="sliders">
                 <h2>Год приобретения</h2>
-                <Range className='year-slider' min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={value => yearFilter(value)}/>
+                <Range className='year-slider' allowCross={false} min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={(value) => checkboxFilter(value)}/>
             </div>
             <div className="color-checboxes">
                 <h2>Цвет:</h2>

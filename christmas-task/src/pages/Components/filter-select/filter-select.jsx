@@ -7,7 +7,7 @@ export default function FilterSelect (props) {
     <select 
         className='select-head' 
         value={props.value}
-        onChange={e => props.onChange(props.cards,e.target.value)}
+        onChange={e => props.onChange(e.target.value)}
         >            
         <option disabled value="">Сортировка</option>
         <option value="title">От А до Я</option>
