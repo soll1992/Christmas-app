@@ -237,36 +237,52 @@ export function Content() {
                 onChange={sortCards}
                 cards={cards}/>
             <div className="shape-checkboxes">
-                <h2>Форма</h2>
-                <input className='ball' ref={isBall} onClick={checkboxFilter} type="checkbox" />
-                <input className='bell' ref={isBell} onClick={checkboxFilter} type="checkbox" />
-                <input className='cone' ref={isCone} onClick={checkboxFilter} type="checkbox" />
-                <input className='snowflake' ref={isSnowflake} onClick={checkboxFilter} type="checkbox" />
-                <input className='figurine' ref={isFigurine} onClick={checkboxFilter} type="checkbox" />
+                <h2>Форма:</h2>
+                <input id='ball' className='custom-checkbox' ref={isBall} onClick={checkboxFilter} type="checkbox" />
+                <label className='ball' htmlFor="ball"></label>
+                <input id='bell' className='custom-checkbox' ref={isBell} onClick={checkboxFilter} type="checkbox" />
+                <label className='bell' htmlFor="bell"></label>
+                <input id='cone' className='custom-checkbox' ref={isCone} onClick={checkboxFilter} type="checkbox" />
+                <label className='cone' htmlFor="cone"></label>
+                <input id='snowflake' className='custom-checkbox' ref={isSnowflake} onClick={checkboxFilter} type="checkbox" />
+                <label className='snowflake' htmlFor="snowflake"></label>
+                <input id='figurine' className='custom-checkbox' ref={isFigurine} onClick={checkboxFilter} type="checkbox" />
+                <label className='figurine' htmlFor="figurine"></label>
             </div>
             <div className="count-slider">
-            <Range className='count-slider' min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={value => countFilter(value)}/>
+                <h2>Количество экземпляров</h2>
+                <Range className='count-slider' min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={value => countFilter(value)}/>
             </div>
             <div className="sliders">
+                <h2>Год приобретения</h2>
                 <Range className='year-slider' min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={value => yearFilter(value)}/>
             </div>
             <div className="color-checboxes">
-                <h2>Цвет</h2>
-                <input className='white' ref={isWhite} onClick={checkboxFilter} type="checkbox" />
-                <input className='yellow' ref={isYellow} onClick={checkboxFilter} type="checkbox" />
-                <input className='red' ref={isRed} onClick={checkboxFilter} type="checkbox" />
-                <input className='blue' ref={isBlue} onClick={checkboxFilter} type="checkbox" />
-                <input className='green' ref={isGreen} onClick={checkboxFilter} type="checkbox" />
+                <h2>Цвет:</h2>
+                <input id='white' className='custom-checkbox color' ref={isWhite} onClick={checkboxFilter} type="checkbox" />
+                <label className='white' htmlFor="white"></label>
+                <input id='yellow' className='custom-checkbox color' ref={isYellow} onClick={checkboxFilter} type="checkbox" />
+                <label className='yellow' htmlFor="yellow"></label>
+                <input id='red' className='custom-checkbox color' ref={isRed} onClick={checkboxFilter} type="checkbox" />
+                <label className='red' htmlFor="red"></label>
+                <input id='blue' className='custom-checkbox color' ref={isBlue} onClick={checkboxFilter} type="checkbox" />
+                <label className='blue' htmlFor="blue"></label>
+                <input id='green' className='custom-checkbox color' ref={isGreen} onClick={checkboxFilter} type="checkbox" />
+                <label className='green' htmlFor="green"></label>
             </div>
             <div className="size-checkboxes">
-                <h2>Размер</h2>
-                <input className='small' ref={isSmall} onClick={checkboxFilter} type="checkbox" />
-                <input className='mid' ref={isMid} onClick={checkboxFilter} type="checkbox" />
-                <input className='big' ref={isBig} onClick={checkboxFilter} type="checkbox" />
+                <h2>Размер:</h2>
+                <input id='small' className='custom-checkbox size margin-fix' ref={isSmall} onClick={checkboxFilter} type="checkbox" />
+                <label htmlFor="small">Маленький</label>
+                <input id='mid' className='custom-checkbox size' ref={isMid} onClick={checkboxFilter} type="checkbox" />
+                <label htmlFor="mid">Средний</label>
+                <input id='big' className='custom-checkbox size' ref={isBig} onClick={checkboxFilter} type="checkbox" />
+                <label htmlFor="big">Большой</label>
             </div>
             <div className="favorite-checkbox">
-                <h2>Любимые</h2>
-                <input className="favorite" ref={isFavorite} onClick={checkboxFilter} type="checkbox"/>
+                <h2>Любимые:</h2>
+                <input id='favorite' className="custom-checkbox favorite" ref={isFavorite} onClick={checkboxFilter} type="checkbox"/>
+                <label htmlFor="favorite"></label>
             </div>
         </div>
         <div className="toys">

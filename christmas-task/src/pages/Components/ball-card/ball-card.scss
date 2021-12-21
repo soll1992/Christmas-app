@@ -3,9 +3,11 @@
     height: 310px;
     background: radial-gradient(118.88% 606.86% at 0% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(157, 243, 255, 0.2) 100%);
     backdrop-filter: blur(31px);
+    border: 1px solid red;
     border-radius: 30px;
     margin: 20px;
     padding: 16px;
+    cursor: pointer;
     .ball-card__title {
         display: block;
         height: 40px;
@@ -23,5 +25,5 @@
     }
 }
 .active {
-    border:1px solid rgb(253, 171, 48);
+    border: 1px solid rgb(253, 171, 48);
 }
