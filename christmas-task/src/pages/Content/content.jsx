@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
+import 'rc-slider/assets/index.css';
 import './content.scss';
 import { BallCard } from '../Components/ball-card/ball-card'
 import { data } from '../../data'
 import { NavLink } from '../Components/nav-link/nav-link'
 import MyInput from '../Components/my-input/MyInput'
 import FilterSelect from '../Components/filter-select/filter-select'
-/* import Checkbox from '../Components/checkbox/checkbox' */
+import Slider from 'rc-slider';
 
 
 export function Content() {
@@ -27,8 +28,11 @@ export function Content() {
     const isBig = useRef()
     const isFavorite = useRef()
     const [currentArr, setCurrentArr] = useState([]);
-
-
+    const createSliderWithTooltip = Slider.createSliderWithTooltip;
+    const Range = createSliderWithTooltip(Slider.Range);
+    const [sliderValues, setSliderValues] = useState([1940,2021]); 
+    const [sliderCount, setSliderCount] = useState([1,12]);
+    const [toyCounter, setToyCounter] = useState(0);
 
     function checkboxFilter() {
         const filters = {
@@ -161,12 +165,13 @@ export function Content() {
                 && (item.color === filters.color1 || item.color === filters.color2 || item.color === filters.color3 || item.color === filters.color4 || item.color === filters.color5)
                 && (item.size === filters.size1 || item.size === filters.size2 || item.size === filters.size3 || item.size === filters.size4 || item.size === filters.size5)
                 && (item.favorite)
-            }        
+            } else if (!filters.shape && !filters.color && !filters.size && !filters.favorite) {
+                return true
+            }       
         }
 
         setCards(data.filter(el => logic(el)))
         setCurrentArr(data.filter(el => logic(el)))
-
     }
 
     function search(e) {
@@ -191,6 +196,28 @@ export function Content() {
         }
     }
 
+    function yearFilter (val) {
+        setSliderValues(val)
+        setCards(cards.filter(item => item.year >= val[0] && item.year <= val[1]))
+    }
+
+    function countFilter (val) {
+        setSliderCount(val)
+        setCards(cards.filter(item => item.count >= val[0] && item.count <= val[1]))
+    }
+
+    function cardActivator(e) {
+        if(e.currentTarget.classList.contains('active')) {
+            e.currentTarget.classList.remove('active')
+            setToyCounter(toyCounter - 1)
+        } else if (!e.currentTarget.classList.contains('active') && toyCounter < 20) {
+            e.currentTarget.classList.add('active')
+            setToyCounter(toyCounter + 1)
+        } else if (toyCounter === 20) {
+            alert("Извините, все слоты для игрушек заполнены")
+        }
+    }
+
     return <section className="content">
         <div className="filters">
             <div className='nav'>
@@ -200,20 +227,31 @@ export function Content() {
                     type="text" 
                     placeholder='Поиск'
                     onChange={e => search(e)}
-                    />
+                />
+            </div>
+            <div className="toy-counter">
+                Игрушек выбрано: {toyCounter}
             </div>
             <FilterSelect 
                 value={selectedSort}
                 onChange={sortCards}
                 cards={cards}/>
             <div className="shape-checkboxes">
+                <h2>Форма</h2>
                 <input className='ball' ref={isBall} onClick={checkboxFilter} type="checkbox" />
                 <input className='bell' ref={isBell} onClick={checkboxFilter} type="checkbox" />
                 <input className='cone' ref={isCone} onClick={checkboxFilter} type="checkbox" />
                 <input className='snowflake' ref={isSnowflake} onClick={checkboxFilter} type="checkbox" />
                 <input className='figurine' ref={isFigurine} onClick={checkboxFilter} type="checkbox" />
             </div>
+            <div className="count-slider">
+            <Range className='count-slider' min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={value => countFilter(value)}/>
+            </div>
+            <div className="sliders">
+                <Range className='year-slider' min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={value => yearFilter(value)}/>
+            </div>
             <div className="color-checboxes">
+                <h2>Цвет</h2>
                 <input className='white' ref={isWhite} onClick={checkboxFilter} type="checkbox" />
                 <input className='yellow' ref={isYellow} onClick={checkboxFilter} type="checkbox" />
                 <input className='red' ref={isRed} onClick={checkboxFilter} type="checkbox" />
@@ -221,18 +259,20 @@ export function Content() {
                 <input className='green' ref={isGreen} onClick={checkboxFilter} type="checkbox" />
             </div>
             <div className="size-checkboxes">
+                <h2>Размер</h2>
                 <input className='small' ref={isSmall} onClick={checkboxFilter} type="checkbox" />
                 <input className='mid' ref={isMid} onClick={checkboxFilter} type="checkbox" />
                 <input className='big' ref={isBig} onClick={checkboxFilter} type="checkbox" />
             </div>
             <div className="favorite-checkbox">
+                <h2>Любимые</h2>
                 <input className="favorite" ref={isFavorite} onClick={checkboxFilter} type="checkbox"/>
             </div>
         </div>
         <div className="toys">
             <h2 className="content-title">Игрушки</h2>
             <div className='cards'>
-                {cards.length ? cards.map(card => <BallCard data={card} key={+card.num}/> )
+                {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} onClick={e => cardActivator(e)}/> )
                                 : <h2>Ничего не найдено</h2>
                 }
             </div>

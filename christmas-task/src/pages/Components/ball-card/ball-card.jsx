@@ -12,7 +12,7 @@ export function BallCard(props) {
     }
 
     return ( 
-        <div className="ball-card">
+        <div className="ball-card" onClick={props.onClick}>
             <h3 className="ball-card__title">{props.data.name}</h3>
             <img src={imgLink} alt={props.data.name} className="ball-card__img" />
             <div className="ball-card__info">
