@@ -23,3 +23,12 @@
 .cross:hover {
     opacity: 0.5;
 }
+
+@media(max-width: 450px) {
+    .input-wrapper {
+        width: 40%;
+    }
+    .nav-input {
+        width: 100%;
+    }
+}

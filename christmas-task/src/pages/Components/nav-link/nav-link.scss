@@ -11,6 +11,7 @@
 .tree-link {
     background: url(../../../../public/svg/tree.svg);
     background-size: cover;
+    transition: 0.5s;
 }
 
 @keyframes rot {
@@ -36,5 +37,4 @@
 
 .tree-link:hover {
     transform: scale(2);
-    transition: 0.5s;
 }

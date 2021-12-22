@@ -9,7 +9,7 @@
         position: relative;
         align-items: center;
         flex-direction: column;
-        width: 593px;
+        width: 300px;
         margin: 0 auto;
     }
     .blur {
@@ -37,18 +37,31 @@
     }
     .content-link {
         display: flex;
-        position: relative;
         align-items: center;
         justify-content: center;
         width: 320px;
         height: 54px;
         text-decoration: none;
         color: white;
-        z-index: 2;
+        transition: 0.5s;
     }
     .content-link:hover {
         transform: scale(1.1);
-        transition: 0.5s;
         border-color: yellow;
+    }
+}
+
+@media (max-width: 440px) {
+    .home {
+        .title {
+            height: 200px;
+        }
+        .title-text {
+            width: 300px;
+            font-size: 25px;
+        }
+        .content-link {
+            width: 300px;
+        }
     }
 }

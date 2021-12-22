@@ -8,6 +8,7 @@
         display: block;
         background: url(../public/svg/github.svg);
         background-repeat: no-repeat;
+        background-size: contain;
     }
     .git:hover {
         opacity: 0.8;
@@ -21,6 +22,7 @@
         display: block;
         background: url(../public/svg/rss.svg);
         background-repeat: no-repeat;
+        background-size: contain;
     }
     .rss:hover {
         opacity: 0.8;

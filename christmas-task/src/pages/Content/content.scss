@@ -16,6 +16,7 @@
     background: url(../../assets/bg10.jpg) no-repeat fixed;
     .filters {
         width: 25%;
+        min-width: 420px;
         height: 800px;
         padding-left: 5%;
         padding-right: 5%;
@@ -44,6 +45,7 @@
         display: inline-flex;
         align-items: center;
         user-select: none;
+        transition: 0.8s;
     }
     .custom-checkbox+label::before {
     content: '';
@@ -62,7 +64,6 @@
     .custom-checkbox+label:hover {
         transform: scale(1.2);
         filter: invert(1%) sepia(64%) saturate(2837%) hue-rotate(353deg) brightness(115%) contrast(110%);
-        transition: 0.8s;
     }
 
     .ball::before {
@@ -158,10 +159,32 @@
         border-radius: 20px;
         color: white;
         cursor: pointer;
+        transition: 0.5s;
     }
     .reset-button:hover {
         transform: scale(1.1);
-        transition: 0.5s;
         border-color: yellow;
+    }
+}
+@media (max-width: 825px) {
+    .content {
+        display: block;
+    }
+}
+
+@media (max-width: 490px) {
+    .content {
+        .filters {
+            width: 90%;
+            min-width: 200px;
+            height: auto;
+            padding-bottom: 10px;
+        }
+        .size+label {
+            display: block;
+        }
+        .size+label::before {
+            margin-left: 0;
+        }
     }
 }
