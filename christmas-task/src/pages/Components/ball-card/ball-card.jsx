@@ -11,8 +11,12 @@ export function BallCard(props) {
         isFavorite = "нет"
     }
 
+    function rerenderCardActivator() {
+        return props.favorite.includes(props.data.num) ? 'ball-card active' : 'ball-card'
+    }
+
     return ( 
-        <div className="ball-card" onClick={props.onClick}>
+        <div className={rerenderCardActivator()} data-num={props.data.num} onClick={props.onClick}>
             <h3 className="ball-card__title">{props.data.name}</h3>
             <img src={imgLink} alt={props.data.name} className="ball-card__img" />
             <div className="ball-card__info">

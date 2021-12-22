@@ -32,7 +32,7 @@ export function Content() {
     const [sliderValues, setSliderValues] = useState([1940,2021]); 
     const [sliderCount, setSliderCount] = useState([1,12]);
     const [toyCounter, setToyCounter] = useState(0);
-
+    const [favoriteToys, setFavoriteToys] = useState([])
 
     function checkboxFilter(val) {
         const filters = {
@@ -246,9 +246,6 @@ export function Content() {
         } else {
             setCards(data.filter(el => logic(el)))
         }
-
-        setToyCounter(0)
-
     }
 
 
@@ -265,12 +262,24 @@ export function Content() {
         }
     }
 
+    function addActiveInCardObj(e) {
+        const index = favoriteToys.indexOf(e.currentTarget.dataset.num)
+        if (index !== -1) {
+            setFavoriteToys(favoriteToys.filter(item => item !== e.currentTarget.dataset.num))
+        } else {
+            favoriteToys.push(e.currentTarget.dataset.num)
+        }
+    }
+
     function cardActivator(e) {
+        console.log(e.currentTarget.dataset.num)
         if(e.currentTarget.classList.contains('active')) {
             e.currentTarget.classList.remove('active')
+            addActiveInCardObj(e)
             setToyCounter(toyCounter - 1)
         } else if (!e.currentTarget.classList.contains('active') && toyCounter < 20) {
             e.currentTarget.classList.add('active')
+            addActiveInCardObj(e)
             setToyCounter(toyCounter + 1)
         } else if (toyCounter === 20) {
             alert("Извините, все слоты для игрушек заполнены")
@@ -361,7 +370,7 @@ export function Content() {
         <div className="toys">
             <h2 className="content-title">Игрушки</h2>
             <div className='cards'>
-                {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} onClick={e => cardActivator(e)}/> )
+                {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} favorite={favoriteToys} onClick={e => cardActivator(e)}/> )
                                 : <h2>Ничего не найдено</h2>
                 }
             </div>
