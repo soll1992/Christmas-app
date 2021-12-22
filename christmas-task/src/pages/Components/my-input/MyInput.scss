@@ -1,4 +1,14 @@
-.nav-input {
+.input-wrapper {
+    position: relative;
     margin-left: auto;
     margin-right: 0;
+}
+.cross {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    cursor: pointer;
 }

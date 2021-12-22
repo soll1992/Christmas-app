@@ -3,6 +3,9 @@ import './MyInput.scss'
 
 export default function MyInput(props) {
     return (
-            <input className='nav-input'{...props}/>
+    <div className="input-wrapper">
+        <input className='nav-input' value={props.value} type="text" placeholder='Поиск' onChange={props.onChange}/>
+        <div className="cross" onClick={props.onClick}></div>
+    </div>
     )
 }
