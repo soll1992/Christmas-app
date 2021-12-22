@@ -6,9 +6,20 @@
 .cross {
     width: 20px;
     height: 20px;
-    background-color: red;
+    background: url(../../../../public/svg/cross.svg);
+    background-color: #75f775;
     position: absolute;
     right: 0;
     top: 2px;
     cursor: pointer;
+}
+.nav-input {
+    background-color: #75f775;
+    border: 2px solid red;
+}
+.nav-input:hover {
+    border-color: yellow;
+}
+.cross:hover {
+    opacity: 0.5;
 }

@@ -46,4 +46,9 @@
         color: white;
         z-index: 2;
     }
+    .content-link:hover {
+        transform: scale(1.1);
+        transition: 0.5s;
+        border-color: yellow;
+    }
 }

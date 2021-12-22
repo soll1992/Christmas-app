@@ -13,6 +13,7 @@
 .content {
     display: flex;
     padding: 20px;
+    background: url(../../assets/bg10.jpg) no-repeat fixed;
     .filters {
         width: 25%;
         height: 800px;
@@ -43,7 +44,7 @@
         display: inline-flex;
         align-items: center;
         user-select: none;
-      }
+    }
     .custom-checkbox+label::before {
     content: '';
     display: inline-block;
@@ -57,6 +58,13 @@
     background-size: cover;
     cursor: pointer;
     }
+
+    .custom-checkbox+label:hover {
+        transform: scale(1.2);
+        filter: invert(1%) sepia(64%) saturate(2837%) hue-rotate(353deg) brightness(115%) contrast(110%);
+        transition: 0.8s;
+    }
+
     .ball::before {
         background: url(../../../public/svg/ball.svg)
     }
@@ -75,11 +83,15 @@
     .custom-checkbox:checked+label::before {
         filter: invert(1%) sepia(64%) saturate(2837%) hue-rotate(353deg) brightness(115%) contrast(110%);
     }
+    .color+label:hover {
+        filter:none;
+    }
     .color+label::before {
         width: 20px;
         height: 20px;
         border-radius: 3px;
         margin-right: 20px;
+        border: 1px solid black;
     }
     .white::before {
         background-color: white;
@@ -113,6 +125,11 @@
     .margin-fix+label::before {
         margin-left: 0;
     }
+    .size+label:hover {
+        transform: scale(1.1);
+        filter: none;
+        cursor: pointer;
+    }
     .size:checked+label::before {
         border-color: #0b76ef;
         background-color: #0b76ef;
@@ -141,5 +158,10 @@
         border-radius: 20px;
         color: white;
         cursor: pointer;
+    }
+    .reset-button:hover {
+        transform: scale(1.1);
+        transition: 0.5s;
+        border-color: yellow;
     }
 }

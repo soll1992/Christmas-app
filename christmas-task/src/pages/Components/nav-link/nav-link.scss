@@ -12,3 +12,29 @@
     background: url(../../../../public/svg/tree.svg);
     background-size: cover;
 }
+
+@keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.home-link:hover {
+    animation: 1s linear 0s normal none infinite running rot;
+}
+
+.tree-link:hover {
+    transform: scale(2);
+    transition: 0.5s;
+}
