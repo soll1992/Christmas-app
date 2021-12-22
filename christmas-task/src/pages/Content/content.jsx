@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'rc-slider/assets/index.css';
 import './content.scss';
 import { BallCard } from '../Components/ball-card/ball-card'
@@ -10,9 +10,40 @@ import Slider from 'rc-slider';
 
 
 export function Content() {
-    const [cards, setCards] = useState(data);
-    const [title, setTitle] = useState('');
-    const [selectedSort, setSelectedSort] = useState('');
+    //стейты переменных и получение их значений из localStorage
+    const [cards, setCards] = useState(() => {
+        const saved = localStorage.getItem("cards");
+        const initialValue = JSON.parse(saved);
+        return initialValue || data;
+    });
+    const [title, setTitle] = useState(() => {
+        const initialValue = localStorage.getItem("title");
+        return initialValue || '';
+    });
+    const [selectedSort, setSelectedSort] = useState(() => {
+        const initialValue = localStorage.getItem("selectedSort");
+        return initialValue || '';
+    });
+    const [sliderValues, setSliderValues] = useState(() => {
+        const saved = localStorage.getItem("sliderValues");
+        const initialValue = JSON.parse(saved);
+        return initialValue || [1940,2021];
+    }); 
+    const [sliderCount, setSliderCount] = useState(() => {
+        const saved = localStorage.getItem("sliderCount");
+        const initialValue = JSON.parse(saved);
+        return initialValue || [1,12];
+    });
+    const [toyCounter, setToyCounter] = useState(() => {
+        const initialValue = localStorage.getItem("toyCounter");
+        return +initialValue || 0;
+    });
+    const [favoriteToys, setFavoriteToys] = useState(() => {
+        const saved = localStorage.getItem("favoriteToys");
+        const initialValue = JSON.parse(saved);
+        return initialValue || [];
+    });
+    //ссылки на чекбоксы
     const isBall = useRef()
     const isBell = useRef()
     const isCone = useRef()
@@ -27,12 +58,93 @@ export function Content() {
     const isMid = useRef()
     const isBig = useRef()
     const isFavorite = useRef()
+    //тултипы для слайдера
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
-    const [sliderValues, setSliderValues] = useState([1940,2021]); 
-    const [sliderCount, setSliderCount] = useState([1,12]);
-    const [toyCounter, setToyCounter] = useState(0);
-    const [favoriteToys, setFavoriteToys] = useState([])
+    //сохранение в localStorage всех state
+    useEffect(() => {        	
+        localStorage.setItem("cards", JSON.stringify(cards))
+    }, [cards])
+
+    useEffect(() => {
+        localStorage.setItem("title", title)
+    }, [title])
+
+    useEffect(() => {
+        localStorage.setItem("selectedSort", selectedSort)
+    }, [selectedSort])
+
+    useEffect(() => {
+        localStorage.setItem("sliderValues", JSON.stringify(sliderValues))
+    }, [sliderValues])
+
+    useEffect(() => {
+        localStorage.setItem("sliderCount", JSON.stringify(sliderCount))
+    }, [sliderCount])
+
+    useEffect(() => {
+        localStorage.setItem("toyCounter", toyCounter)
+    }, [toyCounter])
+
+    useEffect(() => {
+        localStorage.setItem("favoriteToys", JSON.stringify(favoriteToys))
+    }, [favoriteToys])
+    //сохранение в localStorage всех checkbox
+    useEffect(() => {
+        isBall.current.checked = JSON.parse(localStorage.getItem("ball")) || false
+    })
+
+    useEffect(() => {
+        isBell.current.checked = JSON.parse(localStorage.getItem("bell")) || false
+    })
+
+    useEffect(() => {
+        isCone.current.checked = JSON.parse(localStorage.getItem("cone")) || false
+    })
+    
+    useEffect(() => {
+        isSnowflake.current.checked = JSON.parse(localStorage.getItem("snowflake")) || false
+    })
+    
+    useEffect(() => {
+        isFigurine.current.checked = JSON.parse(localStorage.getItem("figurine")) || false
+    })
+    
+    useEffect(() => {
+        isWhite.current.checked = JSON.parse(localStorage.getItem("white")) || false
+    })
+    
+    useEffect(() => {
+        isYellow.current.checked = JSON.parse(localStorage.getItem("yellow")) || false
+    })
+    
+    useEffect(() => {
+        isRed.current.checked = JSON.parse(localStorage.getItem("red")) || false
+    })
+    
+    useEffect(() => {
+        isBlue.current.checked = JSON.parse(localStorage.getItem("blue")) || false
+    })
+    
+    useEffect(() => {
+        isGreen.current.checked = JSON.parse(localStorage.getItem("green")) || false
+    })
+    
+    useEffect(() => {
+        isSmall.current.checked = JSON.parse(localStorage.getItem("small")) || false
+    })
+    
+    useEffect(() => {
+        isMid.current.checked = JSON.parse(localStorage.getItem("mid")) || false
+    })
+    
+    useEffect(() => {
+        isBig.current.checked = JSON.parse(localStorage.getItem("big")) || false
+    })
+
+    useEffect(() => {
+        isFavorite.current.checked = JSON.parse(localStorage.getItem("favorite")) || false
+    })
 
     function checkboxFilter(val) {
         const filters = {
@@ -219,7 +331,7 @@ export function Content() {
             }       
         }
 
-        function sortAfterFilte(sort) {
+        function sortAfterFilter(sort) {
             if (sort === 'title') {
                 setCards((data.filter(el => logic(el))).sort((a,b) => a.name.localeCompare(b.name)))
             } else if (sort === 'titleReverse') {
@@ -238,28 +350,48 @@ export function Content() {
             filters.name = val.target.value
         }
 
+        localStorage.setItem('ball', isBall.current.checked)
+        localStorage.setItem('bell', isBell.current.checked)
+        localStorage.setItem('cone', isCone.current.checked)
+        localStorage.setItem('snowflake', isSnowflake.current.checked)
+        localStorage.setItem('figurine', isFigurine.current.checked)
+        localStorage.setItem('white', isWhite.current.checked)
+        localStorage.setItem('yellow', isYellow.current.checked)
+        localStorage.setItem('red', isRed.current.checked)
+        localStorage.setItem('blue', isBlue.current.checked)
+        localStorage.setItem('green', isGreen.current.checked)
+        localStorage.setItem('small', isSmall.current.checked)
+        localStorage.setItem('mid', isMid.current.checked)
+        localStorage.setItem('big', isBig.current.checked)
+        localStorage.setItem('favorite', isFavorite.current.checked)
+
         setFilter()
 
+        
 
         if (selectedSort !== '') {
-            sortAfterFilte(selectedSort)
+            sortAfterFilter(selectedSort)
         } else {
             setCards(data.filter(el => logic(el)))
+        }
+    }
+
+    function sortLogic(arr,sort) {
+        if (sort === 'title') {
+            setCards(arr.sort((a,b) => a.name.localeCompare(b.name)))
+        } else if (sort === 'titleReverse') {
+            setCards(arr.sort((a,b) => a.name.localeCompare(b.name)).reverse())
+        } else if (sort === 'number') {
+            setCards(arr.sort((a,b) => a.count - b.count))
+        } else if (sort === 'numberReverse') {
+            setCards(arr.sort((a,b) => a.count - b.count).reverse())
         }
     }
 
 
     function sortCards(sort) {
         setSelectedSort(sort)
-        if (sort === 'title') {
-            setCards(cards.sort((a,b) => a.name.localeCompare(b.name)))
-        } else if (sort === 'titleReverse') {
-            setCards(cards.sort((a,b) => a.name.localeCompare(b.name)).reverse())
-        } else if (sort === 'number') {
-            setCards(cards.sort((a,b) => a.count - b.count))
-        } else if (sort === 'numberReverse') {
-            setCards(cards.sort((a,b) => a.count - b.count).reverse())
-        }
+        sortLogic(cards,sort)
     }
 
     function addActiveInCardObj(e) {
@@ -288,6 +420,7 @@ export function Content() {
 
     function resetFilters() {
         setCards(data)
+        sortLogic(data,selectedSort)
         setTitle('')
         setSliderValues([1940,2021])
         setSliderCount([1,12])
