@@ -147,6 +147,11 @@ export function Content() {
     useEffect(() => {
         isFavorite.current.checked = JSON.parse(localStorage.getItem("favorite")) || false
     })
+
+    useEffect(() => {
+        const inputFocus = document.getElementById('input');
+        inputFocus.focus()
+    }, [])
     
     //заношу данные об активации чекбокса в localStorage
     function addCheckboxesToLocalStorage() {
@@ -365,6 +370,10 @@ export function Content() {
                 setCards((data.filter(el => logic(el))).sort((a,b) => a.count - b.count))
             } else if (sort === 'numberReverse') {
                 setCards((data.filter(el => logic(el))).sort((a,b) => a.count - b.count).reverse())
+            } else if (sort === 'year') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.year - b.year))
+            } else if (sort === 'yearReverse') {
+                setCards((data.filter(el => logic(el))).sort((a,b) => a.year - b.year).reverse())
             }
         }
         //эта функция обрабатывает все события на фильрах. Логика ниже помогает понять где происходит
@@ -399,6 +408,10 @@ export function Content() {
             setCards(arr.sort((a,b) => a.count - b.count))
         } else if (sort === 'numberReverse') {
             setCards(arr.sort((a,b) => a.count - b.count).reverse())
+        } else if (sort === 'year') {
+            setCards(arr.sort((a,b) => a.year - b.year))
+        } else if (sort === 'yearReverse') {
+            setCards(arr.sort((a,b) => a.year - b.year).reverse())
         }
     }
 
@@ -539,9 +552,9 @@ export function Content() {
         <div className="toys">
             <h2 className="content-title">Игрушки</h2>
             <div className='cards'>
-                {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} favorite={favoriteToys} onClick={e => cardActivator(e)}/> )
-                                : <h2>Ничего не найдено</h2>
-                }
+                    {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} favorite={favoriteToys} onClick={e => cardActivator(e)}/> )
+                                    : <h2>Ничего не найдено</h2>
+                    }
             </div>
         </div>
 
