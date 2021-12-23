@@ -43,6 +43,8 @@ export function Content() {
         const initialValue = JSON.parse(saved);
         return initialValue || [];
     });
+
+
     //ссылки на чекбоксы
     const isBall = useRef()
     const isBell = useRef()
@@ -88,7 +90,7 @@ export function Content() {
 
     useEffect(() => {
         localStorage.setItem("favoriteToys", JSON.stringify(favoriteToys))
-    }, [favoriteToys])
+    })
     //сохранение в localStorage всех checkbox
     useEffect(() => {
         isBall.current.checked = JSON.parse(localStorage.getItem("ball")) || false
