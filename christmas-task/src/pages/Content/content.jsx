@@ -24,7 +24,7 @@ export function Content() {
         const initialValue = localStorage.getItem("selectedSort");
         return initialValue || '';
     });
-    const [sliderValues, setSliderValues] = useState(() => {
+    const [sliderValues, setSliderYears] = useState(() => {
         const saved = localStorage.getItem("sliderValues");
         const initialValue = JSON.parse(saved);
         return initialValue || [1940,2021];
@@ -145,8 +145,28 @@ export function Content() {
     useEffect(() => {
         isFavorite.current.checked = JSON.parse(localStorage.getItem("favorite")) || false
     })
-
-    function checkboxFilter(val) {
+    
+    //заношу данные об активации чекбокса в localStorage
+    function addCheckboxesToLocalStorage() {
+        localStorage.setItem('ball', isBall.current.checked)
+        localStorage.setItem('bell', isBell.current.checked)
+        localStorage.setItem('cone', isCone.current.checked)
+        localStorage.setItem('snowflake', isSnowflake.current.checked)
+        localStorage.setItem('figurine', isFigurine.current.checked)
+        localStorage.setItem('white', isWhite.current.checked)
+        localStorage.setItem('yellow', isYellow.current.checked)
+        localStorage.setItem('red', isRed.current.checked)
+        localStorage.setItem('blue', isBlue.current.checked)
+        localStorage.setItem('green', isGreen.current.checked)
+        localStorage.setItem('small', isSmall.current.checked)
+        localStorage.setItem('mid', isMid.current.checked)
+        localStorage.setItem('big', isBig.current.checked)
+        localStorage.setItem('favorite', isFavorite.current.checked)
+    }
+    
+    //функция которая применяет все используемые фильтры
+    function allFilters(val) {
+        //объект в который передаются значения фильров
         const filters = {
             shape: false,
             color: false,
@@ -156,21 +176,22 @@ export function Content() {
             year2: sliderValues[1],
             count1: sliderCount[0],
             count2: sliderCount[1],
-            name: '', 
+            name: title, 
         }
-
+        //если функция вызывается на слайдере, то значения из слайдер устанавливаются в стейт
+        //и передаются в объект фильтрации(filters)
         function setYearFilter (val) {
-            setSliderValues(val)
+            setSliderYears(val)
             filters.year1 = val[0]
             filters.year2 = val[1]
         }
-    
+        //такой же принцип как у функции выше
         function setCountFilter (val) {
             setSliderCount(val)
             filters.count1 = val[0]
             filters.count2 = val[1]
         }
-
+        //проверяет какие чекбоксы активны и передает нужные значения фильтрации в объект фильтрации
         function setFilter() {
             if (isBall.current.checked) { 
                 filters.shape1 = 'шар' 
@@ -229,7 +250,9 @@ export function Content() {
                 filters.favorite = true
             }
         }
-
+        //самая страшная функция во всей моей работе, если будет время,то перепишу
+        //на последовательное применение фильтров, а сейчас это просто логическая цепочка
+        //на 100 строк
         function logic(item) {
             //форма
             if (filters.shape && !filters.color && !filters.size && !filters.favorite) {
@@ -330,7 +353,7 @@ export function Content() {
                 && ((filters.name === '') || (item.name.toLowerCase().includes(filters.name.toLowerCase()))))
             }       
         }
-
+        //функция для сортировки сразу после рендера отфильтрованных карточек
         function sortAfterFilter(sort) {
             if (sort === 'title') {
                 setCards((data.filter(el => logic(el))).sort((a,b) => a.name.localeCompare(b.name)))
@@ -342,40 +365,29 @@ export function Content() {
                 setCards((data.filter(el => logic(el))).sort((a,b) => a.count - b.count).reverse())
             }
         }
-
+        //эта функция обрабатывает все события на фильрах. Логика ниже помогает понять где происходит
+        //событие и вызов функции. Эти события могут быть на слайдерах или инпуте фильтра.
         if (Array.isArray(val)) {
             val[1] < 1000 ? setCountFilter(val) : setYearFilter(val)
         } else if (val.target.type === 'text') {
             setTitle(val.target.value)
             filters.name = val.target.value
+        } else if (val.target.classList.value === 'cross') {
+            filters.name = ''
         }
 
-        localStorage.setItem('ball', isBall.current.checked)
-        localStorage.setItem('bell', isBell.current.checked)
-        localStorage.setItem('cone', isCone.current.checked)
-        localStorage.setItem('snowflake', isSnowflake.current.checked)
-        localStorage.setItem('figurine', isFigurine.current.checked)
-        localStorage.setItem('white', isWhite.current.checked)
-        localStorage.setItem('yellow', isYellow.current.checked)
-        localStorage.setItem('red', isRed.current.checked)
-        localStorage.setItem('blue', isBlue.current.checked)
-        localStorage.setItem('green', isGreen.current.checked)
-        localStorage.setItem('small', isSmall.current.checked)
-        localStorage.setItem('mid', isMid.current.checked)
-        localStorage.setItem('big', isBig.current.checked)
-        localStorage.setItem('favorite', isFavorite.current.checked)
-
+        addCheckboxesToLocalStorage()
         setFilter()
 
         
-
+        //запускает функцию сортировки, если был выбран тип сортировки
         if (selectedSort !== '') {
             sortAfterFilter(selectedSort)
         } else {
             setCards(data.filter(el => logic(el)))
         }
     }
-
+    //логика обычной сортировки без использования фильтров
     function sortLogic(arr,sort) {
         if (sort === 'title') {
             setCards(arr.sort((a,b) => a.name.localeCompare(b.name)))
@@ -388,13 +400,13 @@ export function Content() {
         }
     }
 
-
+    //сортировка при выборе типа сортировки в селекте
     function sortCards(sort) {
         setSelectedSort(sort)
         sortLogic(cards,sort)
     }
-
-    function addActiveInCardObj(e) {
+    //функция добавляет номер активной карточки в массив
+    function addActiveCardsNumInArr(e) {
         const index = favoriteToys.indexOf(e.currentTarget.dataset.num)
         if (index !== -1) {
             setFavoriteToys(favoriteToys.filter(item => item !== e.currentTarget.dataset.num))
@@ -402,33 +414,48 @@ export function Content() {
             favoriteToys.push(e.currentTarget.dataset.num)
         }
     }
-
+    //активирует или деактивирует карточку по клику, увеличивает или уменьшает счетчик игрушек
     function cardActivator(e) {
-        console.log(e.currentTarget.dataset.num)
         if(e.currentTarget.classList.contains('active')) {
             e.currentTarget.classList.remove('active')
-            addActiveInCardObj(e)
+            addActiveCardsNumInArr(e)
             setToyCounter(toyCounter - 1)
         } else if (!e.currentTarget.classList.contains('active') && toyCounter < 20) {
             e.currentTarget.classList.add('active')
-            addActiveInCardObj(e)
+            addActiveCardsNumInArr(e)
             setToyCounter(toyCounter + 1)
         } else if (toyCounter === 20) {
             alert("Извините, все слоты для игрушек заполнены")
         }
     }
-
+    //функция сброса всех фильров по клику на кнопку сброса
     function resetFilters() {
         setCards(data)
         sortLogic(data,selectedSort)
+        //пришлось дублировать с явным false, т.к. функция отображала не верное значение чекбокса
+        //скорее всего связано с тем что я использовал кнопку резет для сброса чекбоксов
+        localStorage.setItem('ball', false)
+        localStorage.setItem('bell', false)
+        localStorage.setItem('cone', false)
+        localStorage.setItem('snowflake', false)
+        localStorage.setItem('figurine', false)
+        localStorage.setItem('white', false)
+        localStorage.setItem('yellow', false)
+        localStorage.setItem('red', false)
+        localStorage.setItem('blue', false)
+        localStorage.setItem('green', false)
+        localStorage.setItem('small', false)
+        localStorage.setItem('mid', false)
+        localStorage.setItem('big', false)
+        localStorage.setItem('favorite', false)
         setTitle('')
-        setSliderValues([1940,2021])
+        setSliderYears([1940,2021])
         setSliderCount([1,12])
     }
-
+    //функция очистки инпута по клику на крестик
     function inputClear(e) {
         setTitle('')
-        checkboxFilter(e)
+        allFilters(e)
     }
 
     return <section className="content">
@@ -437,7 +464,7 @@ export function Content() {
                 <NavLink class={'nav-link__link home-link'} link={'/'}/>
                 <NavLink class={'nav-link__link tree-link'} link={'/tree'}/>  
                 <MyInput value={title} 
-                    onChange={e => checkboxFilter(e)}
+                    onChange={e => allFilters(e)}
                     onClick={e => inputClear(e)}
                 />
             </div>
@@ -451,50 +478,50 @@ export function Content() {
             <form>
                 <div className="shape-checkboxes">
                     <h2>Форма:</h2>
-                    <input id='ball' className='custom-checkbox' ref={isBall} onClick={checkboxFilter} type="checkbox" />
+                    <input id='ball' className='custom-checkbox' ref={isBall} onClick={allFilters} type="checkbox" />
                     <label className='ball' htmlFor="ball"></label>
-                    <input id='bell' className='custom-checkbox' ref={isBell} onClick={checkboxFilter} type="checkbox" />
+                    <input id='bell' className='custom-checkbox' ref={isBell} onClick={allFilters} type="checkbox" />
                     <label className='bell' htmlFor="bell"></label>
-                    <input id='cone' className='custom-checkbox' ref={isCone} onClick={checkboxFilter} type="checkbox" />
+                    <input id='cone' className='custom-checkbox' ref={isCone} onClick={allFilters} type="checkbox" />
                     <label className='cone' htmlFor="cone"></label>
-                    <input id='snowflake' className='custom-checkbox' ref={isSnowflake} onClick={checkboxFilter} type="checkbox" />
+                    <input id='snowflake' className='custom-checkbox' ref={isSnowflake} onClick={allFilters} type="checkbox" />
                     <label className='snowflake' htmlFor="snowflake"></label>
-                    <input id='figurine' className='custom-checkbox' ref={isFigurine} onClick={checkboxFilter} type="checkbox" />
+                    <input id='figurine' className='custom-checkbox' ref={isFigurine} onClick={allFilters} type="checkbox" />
                     <label className='figurine' htmlFor="figurine"></label>
                 </div>
                 <div className="count-slider">
                     <h2>Количество экземпляров</h2>
-                    <Range className='count-slider' allowCross={false} min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={(value) => checkboxFilter(value)}/>
+                    <Range className='count-slider' allowCross={false} min={1} max={12} defaultValue={sliderCount} step={1} onAfterChange={(value) => allFilters(value)}/>
                 </div>
                 <div className="sliders">
                     <h2>Год приобретения</h2>
-                    <Range className='year-slider' allowCross={false} min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={(value) => checkboxFilter(value)}/>
+                    <Range className='year-slider' allowCross={false} min={1940} max={2021} defaultValue={sliderValues} step={1} onAfterChange={(value) => allFilters(value)}/>
                 </div>
                 <div className="color-checboxes">
                     <h2>Цвет:</h2>
-                    <input id='white' className='custom-checkbox color' ref={isWhite} onClick={checkboxFilter} type="checkbox" />
+                    <input id='white' className='custom-checkbox color' ref={isWhite} onClick={allFilters} type="checkbox" />
                     <label className='white' htmlFor="white"></label>
-                    <input id='yellow' className='custom-checkbox color' ref={isYellow} onClick={checkboxFilter} type="checkbox" />
+                    <input id='yellow' className='custom-checkbox color' ref={isYellow} onClick={allFilters} type="checkbox" />
                     <label className='yellow' htmlFor="yellow"></label>
-                    <input id='red' className='custom-checkbox color' ref={isRed} onClick={checkboxFilter} type="checkbox" />
+                    <input id='red' className='custom-checkbox color' ref={isRed} onClick={allFilters} type="checkbox" />
                     <label className='red' htmlFor="red"></label>
-                    <input id='blue' className='custom-checkbox color' ref={isBlue} onClick={checkboxFilter} type="checkbox" />
+                    <input id='blue' className='custom-checkbox color' ref={isBlue} onClick={allFilters} type="checkbox" />
                     <label className='blue' htmlFor="blue"></label>
-                    <input id='green' className='custom-checkbox color' ref={isGreen} onClick={checkboxFilter} type="checkbox" />
+                    <input id='green' className='custom-checkbox color' ref={isGreen} onClick={allFilters} type="checkbox" />
                     <label className='green' htmlFor="green"></label>
                 </div>
                 <div className="size-checkboxes">
                     <h2>Размер:</h2>
-                    <input id='small' className='custom-checkbox size margin-fix' ref={isSmall} onClick={checkboxFilter} type="checkbox" />
+                    <input id='small' className='custom-checkbox size margin-fix' ref={isSmall} onClick={allFilters} type="checkbox" />
                     <label htmlFor="small">Маленький</label>
-                    <input id='mid' className='custom-checkbox size' ref={isMid} onClick={checkboxFilter} type="checkbox" />
+                    <input id='mid' className='custom-checkbox size' ref={isMid} onClick={allFilters} type="checkbox" />
                     <label htmlFor="mid">Средний</label>
-                    <input id='big' className='custom-checkbox size' ref={isBig} onClick={checkboxFilter} type="checkbox" />
+                    <input id='big' className='custom-checkbox size' ref={isBig} onClick={allFilters} type="checkbox" />
                     <label htmlFor="big">Большой</label>
                 </div>
                 <div className="favorite-checkbox">
                     <h2>Любимые:</h2>
-                    <input id='favorite' className="custom-checkbox favorite" ref={isFavorite} onClick={checkboxFilter} type="checkbox"/>
+                    <input id='favorite' className="custom-checkbox favorite" ref={isFavorite} onClick={allFilters} type="checkbox"/>
                     <label htmlFor="favorite"></label>
                 </div>
                 <button className='reset-button' type='reset' onClick={resetFilters}>Сброс фильтров</button>
