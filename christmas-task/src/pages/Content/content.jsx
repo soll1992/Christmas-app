@@ -66,7 +66,7 @@ export function Content() {
     //сохранение в localStorage всех state
     useEffect(() => {        	
         localStorage.setItem("cards", JSON.stringify(cards))
-    }, [cards])
+    })
 
     useEffect(() => {
         localStorage.setItem("title", title)
