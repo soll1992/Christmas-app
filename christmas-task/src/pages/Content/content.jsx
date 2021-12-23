@@ -457,6 +457,10 @@ export function Content() {
         setTitle('')
         allFilters(e)
     }
+    //Функция удаления данных из localStorage
+    function clearLocalStorage () {
+        localStorage.clear()
+    }
 
     return <section className="content">
         <div className="filters">
@@ -524,7 +528,10 @@ export function Content() {
                     <input id='favorite' className="custom-checkbox favorite" ref={isFavorite} onClick={allFilters} type="checkbox"/>
                     <label htmlFor="favorite"></label>
                 </div>
-                <button className='reset-button' type='reset' onClick={resetFilters}>Сброс фильтров</button>
+                <div className="buttons">
+                    <button className='reset-button' type='reset' onClick={resetFilters}>Сброс фильтров</button>
+                    <button className='reset-button reset-settings' type='button' onClick={clearLocalStorage}>Сброс настроек</button>
+                </div>
             </form>
         </div>
         <div className="toys">
