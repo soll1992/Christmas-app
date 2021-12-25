@@ -1,0 +1,148 @@
+.tree {
+    display: flex;
+    .panel {
+        background-color: red;
+        width: 25%;
+        height: 735px;
+        padding: 50px;
+    }
+    .left-panel {
+    }
+    .button {
+        width: 40px;
+        height: 40px;
+        background-color: none;
+        border: none;
+        cursor: pointer;
+    }
+    .snow {
+        background: url(../../../public/svg/snow2.svg);
+        background-size: contain;
+    }
+    .music {
+        background: url(../../../public/svg/music.svg);
+        background-size: contain;
+    }
+    .trees {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .tree-card {
+        width: 115px;
+        height: 115px;
+        background-color: rgba(255, 255, 255, .5);
+        backdrop-filter: blur(31px);
+        border-radius: 20px;
+        background-size: auto 110px;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    }
+    .tree-1 {
+        background-image: url(../../../public/tree/1.png);
+    }
+    .tree-2 {
+        background-image: url(../../../public/tree/2.png);
+    }
+    .tree-3 {
+        background-image: url(../../../public/tree/3.png);
+    }
+    .tree-4 {
+        background-image: url(../../../public/tree/4.png);
+    }
+    .tree-5 {
+        background-image: url(../../../public/tree/5.png);
+    }
+    .tree-6 {
+        background-image: url(../../../public/tree/6.png);
+    }
+    .bgs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .bg-card {
+        width: 65px;
+        height: 65px;
+        border: 1px solid #cccc;
+        border-radius: 10px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    } 
+    .bg-1 {
+        background-image: url(../../../public/bg/1.jpg);
+    }
+    .bg-2 {
+        background-image: url(../../../public/bg/2.jpg);
+    }
+    .bg-3 {
+        background-image: url(../../../public/bg/3.jpg);
+    }
+    .bg-4 {
+        background-image: url(../../../public/bg/4.jpg);
+    }
+    .bg-5 {
+        background-image: url(../../../public/bg/5.jpg);
+    }
+    .bg-6 {
+        background-image: url(../../../public/bg/6.jpg);
+    }
+    .bg-7 {
+        background-image: url(../../../public/bg/7.jpg);
+    }
+    .bg-8 {
+        background-image: url(../../../public/bg/8.jpg);
+    }
+    .bg-9 {
+        background-image: url(../../../public/bg/9.jpg);
+    }
+    .bg-10 {
+        background-image: url(../../../public/bg/10.jpg);
+    }
+    .light-btn {
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .btn-rainbow {
+        background: linear-gradient(
+            124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8);
+    }
+    .btn-red {
+        background-color: #F00;
+    }
+    .btn-blue {
+        background-color: #24E0FF;
+    }
+    .btn-yellow {
+        background-color: #FF0;
+    }
+    .btn-green {
+        background-color: #ABFF00;
+    }
+    .main-content {
+        width: 50%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    .snowfall-wrapper {
+
+    }
+    .main-tree {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 100%;
+    }
+    .tree-img {
+        display: block;
+    }
+    .right-panel {
+    }
+}

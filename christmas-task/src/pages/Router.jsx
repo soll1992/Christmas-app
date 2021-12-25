@@ -1,5 +1,8 @@
 import { Home } from './Home/home'
 import { Content } from './Content/content'
+import { Tree } from './Tree/tree'
+
+
 
 export const Pages = [
     {
@@ -11,5 +14,10 @@ export const Pages = [
         link: '/content',
         title: 'Content',
         component: <Content />,
+    },
+    {
+        link: '/tree',
+        title: 'Tree',
+        component: <Tree />,
     },
 ]
