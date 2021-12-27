@@ -1,0 +1,32 @@
+.selected-toy-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    max-width: 84px;
+    min-height: 84px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, .5);
+}
+.selected-toy-img {
+    display: block;
+    width: 65px;
+    height: 65px;
+    position: absolute;
+    object-fit: contain;
+    cursor: move;
+}
+.count {
+    z-index: 10;
+    align-self: flex-end;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    margin-left: 60px;
+    border-radius: 10px;
+    background-color: #24C5DB;
+    font-size: 14px;
+}

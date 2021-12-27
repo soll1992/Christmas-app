@@ -9,7 +9,7 @@ import FilterSelect from '../Components/filter-select/filter-select'
 import Slider from 'rc-slider';
 
 
-export function Content() {
+export function Content(props) {
     //стейты переменных и получение их значений из localStorage
     const [cards, setCards] = useState(() => {
         const saved = localStorage.getItem("cards");
@@ -152,6 +152,10 @@ export function Content() {
         const inputFocus = document.getElementById('input');
         inputFocus.focus()
     }, [])
+    
+    useEffect(() => {
+        props.setSeleected(favoriteToys)
+    }, [favoriteToys])
     
     //заношу данные об активации чекбокса в localStorage
     function addCheckboxesToLocalStorage() {

@@ -10,12 +10,13 @@ import {
 } from 'react-router-dom'
 
 function App() {
+  const [selectedToysArr, setSelectedToysArr] = useState([]);
   const [audio] = useState(new Audio('audio/audio.mp3'));
   return <BrowserRouter>
       <Routes>
       <Route path='/' element = {<Home />}/>
-      <Route path='/content' element={<Content />} />
-      <Route path='/tree' element={<Tree audio={audio}/>} />
+      <Route path='/content' element={<Content setSeleected={setSelectedToysArr}/>} />
+      <Route path='/tree' element={<Tree audio={audio} selectedToysArr={selectedToysArr}/>} />
     </Routes>
   </BrowserRouter>
 }
