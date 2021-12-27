@@ -5,19 +5,23 @@ import TreeCard from '../Components/tree-card/tree-card';
 import BgCard from '../Components/bg-card/bg-card';
 import LightBtn from '../Components/light-btns/light-btn';
 import Snowfall from 'react-snowfall'
+import Garland from '../Components/garland/garland';
 import { NavLink } from '../Components/nav-link/nav-link'
 
 export function Tree(props) {
 
     const trees = [1,2,3,4,5,6]
     const bgs = [1,2,3,4,5,6,7,8,9,10]
-    const lightBtns = ['rainbow', 'red', 'blue', 'yellow', 'green']
+    const lightBtns = ['multicolor', 'red', 'blue', 'yellow', 'green']
     let lightsKey = 0
     const [bgNum, setBgNum] = useState(1);
     const [treeNum, setTreeNum] = useState(1);
+    const [isLight, setIsLight] = useState(false);
+    const [currentColor, setCurrentColor] = useState('');
     let background = `bg/${bgNum}.jpg`
     let tree = `tree/${treeNum}.png`
     const [isSnow, setIsSnow] = useState(false);
+    const startWidth = 120;
 
 
     function toggle() {
@@ -27,6 +31,7 @@ export function Tree(props) {
             props.audio.pause()
         }
     }
+
     function changeBg(e) {
         setBgNum(e.currentTarget.dataset.bgNum)
     }
@@ -35,6 +40,15 @@ export function Tree(props) {
         setTreeNum(e.currentTarget.dataset.treeNum)
     }
     
+    function garlandColor(e) {
+        setCurrentColor(e.currentTarget.id)
+        if(e.currentTarget.id === currentColor && isLight) {
+            setIsLight(false)
+        } else {
+            setIsLight(true)
+        }
+
+    }
 
     return <section className="tree">
         <div className="left-panel panel">
@@ -52,12 +66,32 @@ export function Tree(props) {
             </div>
             <h2>Гирлянда</h2>
             <div className='lights'>
-                {lightBtns.map(item => <LightBtn bgClass={item} key={lightsKey++}/>)}
+                {lightBtns.map(item => 
+                    <LightBtn   
+                        bgClass={item} 
+                        key={lightsKey++} 
+                        bgId={item} 
+                        onClick={ e => garlandColor(e)}
+                    />
+                )}
             </div>
         </div>
         <div className="main-content" style={{ backgroundImage: `url(${background})` }}>
             <div className="main-tree">
                 {isSnow && <Snowfall/>}
+
+                <div className={ isLight ? 'garland-tree-container' : 'hidden'}>
+                    {[...Array(12)].map((_, i) => {
+                        return (
+                            <Garland
+                                color={currentColor}
+                                width={startWidth + i * 50}
+                                amount={i + 5}
+                                key={i}
+                            />
+                        );
+                    })}
+                </div>
 
                 <img className='tree-img' src={tree} alt="tree" useMap="#image-map"/>
 
