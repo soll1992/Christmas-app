@@ -67,22 +67,28 @@ export function Tree({audio, selectedToysArr}) {
     //drug and drop
     function handleDragStart(e) {
         test1 = false
-        console.log('start')
-        console.log(test1)
+        if (!e.target.classList.contains('.on-tree')) {
+            //вынести в отдельную функцию
+            refArr.filter(item => 
+                item.dataset.pNum === e.target.dataset.num)[0]
+                .textContent--
+        }
+
         e.dataTransfer.setData("text", e.target.id);
     }
 
     function handleOverDrop(e) {
         e.preventDefault(); 
-        if (e.type !== "drop") {
-            return; 
-        } else {
-            test1 = true
-        }
-
 
         let draggedId = e.dataTransfer.getData("text");
         let draggedEl = document.getElementById(draggedId); //заменить на ссылку
+
+        if (e.type !== "drop") {
+            return; 
+        } else {
+            test1 = true 
+            draggedEl.classList.add('.on-tree')      
+        } 
 
 
         moveAt(e.pageX, e.pageY);
@@ -92,20 +98,18 @@ export function Tree({audio, selectedToysArr}) {
             draggedEl.style.top = pageY- 32 + 'px';
         }
 
-        console.log('drop')
-
-
-        if (draggedEl.parentNode === e.target) {
-            return; 
-        }
 
     }
 
     function dragEnd(e) {
-        console.log(!test1)
         if(!test1) {
             e.target.style.left = 'auto';
             e.target.style.top = 'auto';
+            e.target.classList.remove('.on-tree')
+            //вынести в отдельную функцию
+            refArr.filter(item => 
+                item.dataset.pNum === e.target.dataset.num)[0]
+                .textContent++
         }
 
     }
@@ -172,8 +176,8 @@ export function Tree({audio, selectedToysArr}) {
             <div className="toys-mini-cards" 
                 data-drop-target="true">
                 {selectedToysArr.length ? 
-                    currentToys.map((item,i) => <SelectedToyCard refArr={refArr} onDrag={e => e.target} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>) :
-                    defaultToys.map((item,i) => <SelectedToyCard refArr={refArr} onDrag={e => e.target} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>)
+                    currentToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>) :
+                    defaultToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>)
                 }
             </div>
         </div>
