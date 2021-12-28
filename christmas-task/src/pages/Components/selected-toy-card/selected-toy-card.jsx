@@ -2,17 +2,22 @@ import React, {useRef, useEffect} from 'react'
 import './selected-toy-card.scss';
 
 export default function SelectedToyCard(props) {
-    const ref = useRef()
+    const refP = useRef()
+    const refCard = useRef()
 
 
     useEffect(() => {
-        props.refArr.push(ref.current)
+        props.refArrCards.push(refCard.current)
+    })
+
+    useEffect(() => {
+        props.refArr.push(refP.current)
     })
 
 
     return (
-        <div className='selected-toy-card' id={props.dataArr.num} >
-            <p ref={ref} data-p-num={props.dataArr.num} className='count'>{props.dataArr.count} </p>
+        <div ref={refCard} className='selected-toy-card' data-card-num={props.dataArr.num}  id={props.dataArr.num} >
+            <p ref={refP} data-p-num={props.dataArr.num} className='count'>{props.dataArr.count} </p>
             {[...Array(+props.dataArr.count)].map((_, i) => {
                 return (
                     <img 

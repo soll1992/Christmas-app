@@ -38,8 +38,10 @@ export function Tree({audio, selectedToysArr}) {
     const startWidth = 120;
 
     const isTree = useRef()
+    const mainConteiner = useRef()
 
     let refArr = []
+    let refArrCards = []
 
     useEffect(() => {
         localStorage.setItem("bgNum", bgNum)
@@ -95,7 +97,6 @@ export function Tree({audio, selectedToysArr}) {
                 item.dataset.pNum === e.target.dataset.num)[0]
                 .textContent--
         }
-
         e.dataTransfer.setData("text", e.target.id);
     }
 
@@ -112,20 +113,29 @@ export function Tree({audio, selectedToysArr}) {
             draggedEl.classList.add('.on-tree')      
         } 
 
+        console.log(mainConteiner.current.getBoundingClientRect())
+        console.log(window.scrollY)
+
         moveAt(e.pageX, e.pageY)
 
 
         function moveAt(pageX, pageY) {
-            draggedEl.style.left = pageX - 32 + 'px';
-            draggedEl.style.top = pageY- 32 + 'px';
+            draggedEl.style.left = pageX - mainConteiner.current.getBoundingClientRect().left - 32 + 'px';
+            draggedEl.style.top = pageY- mainConteiner.current.getBoundingClientRect().top - window.scrollY - 32 + 'px';
         }
 
+        draggedEl.parentNode.removeChild(draggedEl);
+		e.target.appendChild(draggedEl);
 
     }
 
     function dragEnd(e) {
         if(!test1) {
-            e.target.style.left = 'auto';
+            e.target.parentNode.removeChild(e.target);
+            refArrCards.filter( item =>
+                item.dataset.cardNum === e.target.dataset.num)[0]
+                .appendChild(e.target)
+            e.target.style.left = 'auto'
             e.target.style.top = 'auto';
             e.target.classList.remove('.on-tree')
             //вынести в отдельную функцию
@@ -177,9 +187,8 @@ export function Tree({audio, selectedToysArr}) {
             </div>
         </div>
         <div className="main-content" style={{ backgroundImage: `url(${background})` }}>
-            <div className="main-tree">
-                {isSnow && <Snowfall/>}
-
+            {isSnow && <Snowfall/>}
+            <div ref={mainConteiner} className="main-tree">
                 <div className={ isLight ? 'garland-tree-container' : 'hidden'}>
                     {[...Array(12)].map((_, i) => {
                         return (
@@ -212,8 +221,8 @@ export function Tree({audio, selectedToysArr}) {
             <div className="toys-mini-cards" 
                 data-drop-target="true">
                 {selectedToysArr.length ? 
-                    currentToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>) :
-                    defaultToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>)
+                    currentToys.map((item,i) => <SelectedToyCard refArrCards={refArrCards} refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>) :
+                    defaultToys.map((item,i) => <SelectedToyCard refArrCards={refArrCards} refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>)
                 }
             </div>
             <div className="button-conteiner">
