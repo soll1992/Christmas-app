@@ -112,8 +112,8 @@ export function Tree({audio, selectedToysArr}) {
             draggedEl.classList.add('.on-tree')      
         } 
 
+        moveAt(e.pageX, e.pageY)
 
-        moveAt(e.pageX, e.pageY);
 
         function moveAt(pageX, pageY) {
             draggedEl.style.left = pageX - 32 + 'px';
@@ -128,7 +128,6 @@ export function Tree({audio, selectedToysArr}) {
             e.target.style.left = 'auto';
             e.target.style.top = 'auto';
             e.target.classList.remove('.on-tree')
-            console.log(refArr)
             //вынести в отдельную функцию
             refArr.filter(item => 
                 item.dataset.pNum === e.target.dataset.num)[0]
@@ -145,7 +144,6 @@ export function Tree({audio, selectedToysArr}) {
         setTreeNum(1)
         setIsSnow(false)
         setCurrentToys(defaultToys)
-        console.log(refArr)
     }
 
     return <section className="tree" onDragEnd={e => dragEnd(e)}>

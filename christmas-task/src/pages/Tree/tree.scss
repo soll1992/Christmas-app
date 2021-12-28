@@ -1,16 +1,19 @@
 .tree {
     display: flex;
+    width: 100%;
+    height: 100%;
+    background: url(../../../public/bg/bg-35.jpg) no-repeat fixed;
     .panel {
-        background-color: red;
-        width: 25%;
-        height: calc(100vh - 202px);
-        padding: 50px;
+      width: 25%;
+      height: calc(100vh - 202px);
+      padding: 50px;
+      background: rgba(21, 105, 29, 0.5);;
     }
-/*     @media (max-width: 1800px) {
+    @media (max-width: 1800px) {
       .panel {
         height: auto;
       }
-    } */
+    }
     .nav {
       display: flex;
       align-items: center;
@@ -22,13 +25,16 @@
     }
 
     .button {
-        width: 40px;
-        height: 40px;
-        margin-right: 12px;
-        background-color: none;
-        border: none;
-        cursor: pointer;
-        transition: 0.5s;
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+      background-color: none;
+      border: none;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+    .button:hover {
+      opacity: 0.8;
     }
     .snow {
         background: url(../../../public/svg/snow2.svg);
@@ -148,6 +154,14 @@
         background-size: cover;
         background-position: center;
         position: relative;
+        margin: auto 0;
+        height: 835px;
+    }
+
+    @media (max-width: 1800px) {
+      .main-content {
+        overflow: hidden;
+      }
     }
     .main-tree {
         display: flex;
@@ -300,7 +314,7 @@
   }
 }
 
-@media (max-width: 1800px) {
+@media (max-width: 1240px) {
   .tree {
     display: block;
     .panel {
