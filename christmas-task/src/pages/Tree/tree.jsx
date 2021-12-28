@@ -16,20 +16,42 @@ export function Tree({audio, selectedToysArr}) {
     const bgs = [1,2,3,4,5,6,7,8,9,10]
     const lightBtns = ['multicolor', 'red', 'blue', 'yellow', 'green']
     let lightsKey = 0
-    const [bgNum, setBgNum] = useState(1);
-    const [treeNum, setTreeNum] = useState(1);
+    const [bgNum, setBgNum] = useState(() => {
+        const initialValue = localStorage.getItem("bgNum");
+        return +initialValue || 1;
+    });
+    const [treeNum, setTreeNum] = useState(() => {
+        const initialValue = localStorage.getItem("treeNum");
+        return +initialValue || 1;
+    });
     const [isLight, setIsLight] = useState(false);
     const [currentColor, setCurrentColor] = useState('');
     const defaultToys = data.filter(item => item.num < 21)
     const [currentToys, setCurrentToys] = useState([]);
     let background = `bg/${bgNum}.jpg`
     let tree = `tree/${treeNum}.png`
-    const [isSnow, setIsSnow] = useState(false);
+    const [isSnow, setIsSnow] = useState(() => {
+        const saved = localStorage.getItem("isSnow");
+        const initialValue = JSON.parse(saved);
+        return initialValue || false;
+    });
     const startWidth = 120;
 
     const isTree = useRef()
 
     let refArr = []
+
+    useEffect(() => {
+        localStorage.setItem("bgNum", bgNum)
+    }, [bgNum])
+
+    useEffect(() => {
+        localStorage.setItem("treeNum", treeNum)
+    }, [treeNum])
+
+    useEffect(() => {
+        localStorage.setItem("isSnow", JSON.stringify(isSnow))
+    }, [isSnow])
 
     useEffect(() => {
         setCurrentToys(data.filter(item => selectedToysArr.includes(item.num)))
@@ -115,6 +137,17 @@ export function Tree({audio, selectedToysArr}) {
 
     }
 
+    //Сброс настроек
+
+    function resetSettings() {
+        localStorage.clear()
+        setBgNum(1)
+        setTreeNum(1)
+        setIsSnow(false)
+        setCurrentToys(defaultToys)
+        console.log(refArr)
+    }
+
     return <section className="tree" onDragEnd={e => dragEnd(e)}>
         <div className="left-panel panel">
             <div className="nav">
@@ -184,6 +217,9 @@ export function Tree({audio, selectedToysArr}) {
                     currentToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>) :
                     defaultToys.map((item,i) => <SelectedToyCard refArr={refArr} onDragStart={e=>handleDragStart(e)} dataArr={item} key={i}/>)
                 }
+            </div>
+            <div className="button-conteiner">
+                <Button class={'reset-settings'} content={'Сброс настроек'} onClick={resetSettings}/>
             </div>
         </div>
     </section>
