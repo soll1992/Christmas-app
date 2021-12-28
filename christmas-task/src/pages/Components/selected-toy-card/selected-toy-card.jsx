@@ -1,10 +1,14 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 import './selected-toy-card.scss';
 
 export default function SelectedToyCard(props) {
     const ref = useRef()
 
-    props.refArr.push(ref.current)
+
+    useEffect(() => {
+        props.refArr.push(ref.current)
+    })
+
 
     return (
         <div className='selected-toy-card' id={props.dataArr.num} >

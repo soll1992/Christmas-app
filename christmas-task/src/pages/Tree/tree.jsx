@@ -106,6 +106,7 @@ export function Tree({audio, selectedToysArr}) {
             e.target.style.left = 'auto';
             e.target.style.top = 'auto';
             e.target.classList.remove('.on-tree')
+            console.log(refArr)
             //вынести в отдельную функцию
             refArr.filter(item => 
                 item.dataset.pNum === e.target.dataset.num)[0]
@@ -116,6 +117,10 @@ export function Tree({audio, selectedToysArr}) {
 
     return <section className="tree" onDragEnd={e => dragEnd(e)}>
         <div className="left-panel panel">
+            <div className="nav">
+                <NavLink class={'nav-link__link home-link'} link={'/'}/>
+                <NavLink class={'nav-link__link toy-link'} link={'/content'}/> 
+            </div>
             <div className="effects">
                 <Button class={'music button'} onClick={toggle}/>
                 <Button class={'snow button'} onClick={e => setIsSnow(!isSnow)}/>
@@ -183,8 +188,3 @@ export function Tree({audio, selectedToysArr}) {
         </div>
     </section>
 }
-
-/* onDragOver={e => handleOverDrop(e)} 
-                        onDragEnter={}
-                        onDragLeave={} 
-                        onDrop={e => handleOverDrop(e)} */

@@ -6,14 +6,29 @@
         height: calc(100vh - 202px);
         padding: 50px;
     }
-    .left-panel {
+/*     @media (max-width: 1800px) {
+      .panel {
+        height: auto;
+      }
+    } */
+    .nav {
+      display: flex;
+      align-items: center;
+      .nav-link__link {
+        margin-left: 0px;
+        margin-right: 15px;
+        margin-bottom: 10px;
+      }
     }
+
     .button {
         width: 40px;
         height: 40px;
+        margin-right: 12px;
         background-color: none;
         border: none;
         cursor: pointer;
+        transition: 0.5s;
     }
     .snow {
         background: url(../../../public/svg/snow2.svg);
@@ -32,11 +47,13 @@
         width: 115px;
         height: 115px;
         background-color: rgba(255, 255, 255, .5);
+        border: red solid 2px;
         backdrop-filter: blur(31px);
         border-radius: 20px;
         background-size: auto 110px;
         background-repeat: no-repeat;
         background-position: center;
+        transition: 0.5s;
         cursor: pointer;
     }
     .tree-1 {
@@ -65,11 +82,12 @@
     .bg-card {
         width: 65px;
         height: 65px;
-        border: 1px solid #cccc;
+        border: 2px solid red;
         border-radius: 10px;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+        transition: 0.5s;
         cursor: pointer;
     } 
     .bg-1 {
@@ -130,9 +148,6 @@
         background-size: cover;
         background-position: center;
         position: relative;
-    }
-    .snowfall-wrapper {
-
     }
     .main-tree {
         display: flex;
@@ -265,7 +280,36 @@
       .toys-mini-cards {
         display: flex;
         flex-wrap: wrap;
-        gap: 5px;
+        gap: 10px;
       }
     }
+
+  .button:hover {
+    transform: scale(1.3);
+  }
+  .tree-card:hover {
+    transform: scale(1.2);
+    border-color: green;
+  }
+  .bg-card:hover {
+    transform: scale(1.2);
+    border-color: green;
+  }
+  .light-btn:hover {
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 1800px) {
+  .tree {
+    display: block;
+    .panel {
+      width: calc(100% - 100px);
+      height: auto;
+    }
+    .main-content {
+      margin: 0 auto;
+      min-width: 500px;
+    }
+  }
 }
