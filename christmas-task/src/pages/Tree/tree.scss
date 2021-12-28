@@ -149,6 +149,10 @@
     .btn-green {
         background-color: #ABFF00;
     }
+    @keyframes fade {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .main-content {
         width: 50%;
         min-width: 540px;
@@ -157,6 +161,10 @@
         position: relative;
         margin: auto 0;
         height: 835px;
+        animation-name: fade;
+        animation-duration: 2s;
+        animation-direction: normal;
+        transition: background 300ms ease-in 200ms;
     }
 
     @media (max-width: 1800px) {
