@@ -5,6 +5,7 @@ body {
     display: flex;
     flex-direction: column;
     color: white;
+    user-select: none;
 }
 .main {
     flex: 1 0 auto;

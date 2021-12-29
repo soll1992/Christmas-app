@@ -86,11 +86,11 @@ export function Tree({audio, selectedToysArr}) {
 
     }
 
-    let test1 = false
+    let onTree = false
 
     //drug and drop
     function handleDragStart(e) {
-        test1 = false
+        onTree = false
         if (!e.target.classList.contains('.on-tree')) {
             //вынести в отдельную функцию
             refArr.filter(item => 
@@ -109,12 +109,10 @@ export function Tree({audio, selectedToysArr}) {
         if (e.type !== "drop") {
             return; 
         } else {
-            test1 = true 
+            onTree = true 
             draggedEl.classList.add('.on-tree')      
         } 
 
-        console.log(mainConteiner.current.getBoundingClientRect())
-        console.log(window.scrollY)
 
         moveAt(e.pageX, e.pageY)
 
@@ -130,7 +128,7 @@ export function Tree({audio, selectedToysArr}) {
     }
 
     function dragEnd(e) {
-        if(!test1) {
+        if(!onTree) {
             e.target.parentNode.removeChild(e.target);
             refArrCards.filter( item =>
                 item.dataset.cardNum === e.target.dataset.num)[0]
@@ -148,12 +146,11 @@ export function Tree({audio, selectedToysArr}) {
 
     //Сброс настроек
 
-    function resetSettings() {
+    function resetSettings(e) {
         localStorage.clear()
         setBgNum(1)
         setTreeNum(1)
         setIsSnow(false)
-        setCurrentToys(defaultToys)
     }
 
     return <section className="tree" onDragEnd={e => dragEnd(e)}>
@@ -211,7 +208,7 @@ export function Tree({audio, selectedToysArr}) {
                     
                     <area data-drop-target="true"
                         ref={isTree} 
-                        alt="garland" 
+                        alt="tree" 
                         coords="118,690,69,648,31,609,4,560,21,437,76,355,109,228,160,136,250,1,305,69,353,152,398,228,394,287,425,357,456,454,490,547,443,665,357,695,259,702,198,706" shape="poly"/>
                 </map>
             </div>
