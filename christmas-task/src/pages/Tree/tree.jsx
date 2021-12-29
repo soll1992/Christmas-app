@@ -28,6 +28,11 @@ export function Tree({audio, selectedToysArr}) {
     const [currentColor, setCurrentColor] = useState('');
     const defaultToys = data.filter(item => item.num < 21)
     const [currentToys, setCurrentToys] = useState([]);
+    const [audioFlag, setAudioFlag] = useState(() => {
+        const initialValue = localStorage.getItem("audioFlag");
+        return initialValue || 'on';
+    });
+    const [firstClick, setFirstClick] = useState(true);
     let background = `bg/${bgNum}.jpg`
     let tree = `tree/${treeNum}.png`
     const [isSnow, setIsSnow] = useState(() => {
@@ -48,6 +53,10 @@ export function Tree({audio, selectedToysArr}) {
     }, [bgNum])
 
     useEffect(() => {
+        localStorage.setItem("audioFlag", audioFlag)
+    }, [audioFlag])
+
+    useEffect(() => {
         localStorage.setItem("treeNum", treeNum)
     }, [treeNum])
 
@@ -61,16 +70,27 @@ export function Tree({audio, selectedToysArr}) {
     
 
     function toggle() {
-        let time = localStorage.getItem("audioTime")
-        time ? audio.currentTime = +time : audio.currentTime = 0
+/*         let time = localStorage.getItem("audioTime")
+        time ? audio.currentTime = +time : audio.currentTime = 0 */
         if (audio.paused) {
             audio.play()
-            setInterval(() => {
+            setAudioFlag('off')
+/*             setInterval(() => {
                 localStorage.setItem("audioTime", audio.currentTime);
-              }, 100);
+              }, 100); */
         } else {
             audio.pause()
         }
+    }
+
+    function playAudio() {
+        console.log(audioFlag)
+        console.log(firstClick)
+        if (audioFlag === 'off' && firstClick) {
+            audio.play()
+            setAudioFlag('on')
+        }  
+        setFirstClick(false)
     }
 
     function changeBg(e) {
@@ -177,7 +197,7 @@ export function Tree({audio, selectedToysArr}) {
         setCurrentToys(defaultToys)
     }
 
-    return <section className="tree" onDragEnd={e => dragEnd(e)}>
+    return <section className="tree" onDragEnd={e => dragEnd(e)} onClick={playAudio}>
         <div className="left-panel panel">
             <div className="nav">
                 <NavLink class={'nav-link__link home-link'} link={'/'}/>
