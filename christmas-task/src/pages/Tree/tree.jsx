@@ -61,8 +61,13 @@ export function Tree({audio, selectedToysArr}) {
     
 
     function toggle() {
+        let time = localStorage.getItem("audioTime")
+        time ? audio.currentTime = +time : audio.currentTime = 0
         if (audio.paused) {
             audio.play()
+            setInterval(() => {
+                localStorage.setItem("audioTime", audio.currentTime);
+              }, 100);
         } else {
             audio.pause()
         }
