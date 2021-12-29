@@ -16,15 +16,11 @@ function App() {
     return initialValue || [];
 }); 
 
-  useEffect(() => {
-    localStorage.setItem("selectedToysArr", JSON.stringify(selectedToysArr))
-  }, [selectedToysArr])
-
   const [audio] = useState(new Audio('audio/audio.mp3'));
   return <BrowserRouter>
       <Routes>
       <Route path='/' element = {<Home />}/>
-      <Route path='/content' element={<Content setSeleected={setSelectedToysArr}/>} />
+      <Route path='/content' element={<Content selectedToysArr={selectedToysArr} setSelected={setSelectedToysArr}/>} />
       <Route path='/tree' element={<Tree audio={audio} selectedToysArr={selectedToysArr}/>} />
     </Routes>
   </BrowserRouter>

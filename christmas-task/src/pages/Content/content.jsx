@@ -44,6 +44,11 @@ export function Content(props) {
         return initialValue || [];
     });
 
+    useEffect(() => {
+        localStorage.setItem("selectedToysArr", JSON.stringify(props.selectedToysArr))
+        console.log('check')
+      })
+
 
     //ссылки на чекбоксы
     const isBall = useRef()
@@ -154,7 +159,7 @@ export function Content(props) {
     }, [])
     
     useEffect(() => {
-        props.setSeleected(favoriteToys)
+        props.setSelected(favoriteToys)
     }, [favoriteToys])
     
     //заношу данные об активации чекбокса в localStorage

@@ -151,6 +151,7 @@ export function Tree({audio, selectedToysArr}) {
         setBgNum(1)
         setTreeNum(1)
         setIsSnow(false)
+        setCurrentToys(defaultToys)
     }
 
     return <section className="tree" onDragEnd={e => dragEnd(e)}>
