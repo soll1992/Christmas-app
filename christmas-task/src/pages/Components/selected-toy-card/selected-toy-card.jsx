@@ -20,7 +20,7 @@ export default function SelectedToyCard(props) {
             <p ref={refP} data-p-num={props.dataArr.num} className='count'>{props.dataArr.count} </p>
             {[...Array(+props.dataArr.count)].map((_, i) => {
                 return (
-                    <img 
+                    <img
                         className='selected-toy-img'
                         id={`${props.dataArr.num}-${i}`}
                         draggable="true"

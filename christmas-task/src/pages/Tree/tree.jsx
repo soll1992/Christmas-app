@@ -91,7 +91,7 @@ export function Tree({audio, selectedToysArr}) {
     //drug and drop
     function handleDragStart(e) {
         onTree = false
-        if (!e.target.classList.contains('.on-tree')) {
+        if (!e.target.classList.contains('on-tree')) {
             //вынести в отдельную функцию
             refArr.filter(item => 
                 item.dataset.pNum === e.target.dataset.num)[0]
@@ -110,7 +110,7 @@ export function Tree({audio, selectedToysArr}) {
             return; 
         } else {
             onTree = true 
-            draggedEl.classList.add('.on-tree')      
+            draggedEl.classList.add('on-tree')      
         } 
 
 
@@ -135,13 +135,30 @@ export function Tree({audio, selectedToysArr}) {
                 .appendChild(e.target)
             e.target.style.left = 'auto'
             e.target.style.top = 'auto';
-            e.target.classList.remove('.on-tree')
+            e.target.classList.remove('on-tree')
             //вынести в отдельную функцию
             refArr.filter(item => 
                 item.dataset.pNum === e.target.dataset.num)[0]
                 .textContent++
         }
 
+    }
+
+    function removeToysFormTree() {
+        let nodes = [...isTree.current.childNodes]
+        nodes.forEach(item => {
+            isTree.current.removeChild(item)
+            refArrCards.filter( card =>
+                card.dataset.cardNum === item.dataset.num)[0]
+                .appendChild(item)
+            item.style.left = 'auto'
+            item.style.top = 'auto';
+            item.classList.remove('on-tree')
+            //вынести в отдельную функцию
+            refArr.filter(p => 
+                p.dataset.pNum === item.dataset.num)[0]
+                .textContent++
+        })
     }
 
     //Сброс настроек
@@ -151,6 +168,7 @@ export function Tree({audio, selectedToysArr}) {
         setBgNum(1)
         setTreeNum(1)
         setIsSnow(false)
+        removeToysFormTree()
         setCurrentToys(defaultToys)
     }
 
