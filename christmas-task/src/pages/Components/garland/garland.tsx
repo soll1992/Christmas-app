@@ -1,9 +1,15 @@
 import React from 'react'
 
-export default function Garland(props) {
-    let arr = []
+interface Props {
+    width: number,
+    amount: number,
+    color: string,
+}
+
+export default function Garland(props: Props) {
+    let arr: Array<string> = []
     let i = 0
-    function createLi(n) {
+    function createLi(n: number) {
         let result = 60
 
         for(let i = 0; i < n; i++) {

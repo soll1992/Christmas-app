@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 
-export default function LightBtn(props) {
+interface Props {
+    bgId: string,
+    bgClass: string,
+    onClick: MouseEventHandler,
+}
+
+
+export default function LightBtn(props: Props) {
 
     const lightClasses = `light-btn btn-${props.bgClass}`
 

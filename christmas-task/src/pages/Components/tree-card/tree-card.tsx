@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 
-export default function TreeCard(props) {
+interface Props {
+    treeClass: string,
+    onClick: MouseEventHandler,
+}
+
+export default function TreeCard(props: Props) {
 
     const treeClasses = `tree-card tree-${props.treeClass}`
 

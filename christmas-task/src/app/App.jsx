@@ -1,5 +1,5 @@
 import './App.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Home } from '../pages/Home/home'
 import { Content } from '../pages/Content/content'
 import { Tree } from '../pages/Tree/tree'

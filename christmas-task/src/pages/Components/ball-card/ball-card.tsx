@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import './ball-card.scss';
 
+interface Data {
+    num: string,
+    name: string,
+    count: string,
+    year: string,
+    shape: string,
+    color: string,
+    size: string,
+    favorite: boolean,
+}
 
-export function BallCard(props) {
+type Props = {
+    data: Data,
+    favorite: Array<string>
+    onClick: MouseEventHandler,
+}
+
+export function BallCard(props : Props) {
     const imgLink = `toys/${props.data.num}.png`
-    let isFavorite 
+    let isFavorite : string
     if (props.data.favorite) {
         isFavorite = "да"
     } else {

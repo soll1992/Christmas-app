@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { FormEventHandler } from 'react'
 import './filter-select.scss';
 
+interface Props {
+    value: string,
+    onChange: FormEventHandler,
+}
 
-export default function FilterSelect (props) {
+export default function FilterSelect (props: Props) {
     return (
     <select 
         className='select-head' 
         value={props.value}
-        onChange={e => props.onChange(e.target.value)}
+        onChange={props.onChange}
         >            
         <option disabled value="">Сортировка</option>
         <option value="title">От А до Я</option>

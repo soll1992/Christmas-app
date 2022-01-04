@@ -1,17 +1,40 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, DragEventHandler } from 'react'
 import './selected-toy-card.scss';
 
-export default function SelectedToyCard(props) {
-    const refP = useRef()
-    const refCard = useRef()
+interface Data {
+    num: string,
+    name: string,
+    count: string,
+    year: string,
+    shape: string,
+    color: string,
+    size: string,
+    favorite: boolean,
+}
+
+interface Props {
+    value: string,
+    refArrCards: Array<React.MutableRefObject<HTMLDivElement> | null>,
+    refArr: Array<React.MutableRefObject<HTMLParagraphElement> | null>,
+    dataArr: Data,
+    onDragStart: DragEventHandler,
+}
+
+export default function SelectedToyCard(props: Props) {
+    const refP = useRef(null)
+    const refCard = useRef(null)
 
 
     useEffect(() => {
-        props.refArrCards.push(refCard.current)
+        if(refCard.current !== undefined) {
+            props.refArrCards.push(refCard.current)
+        }
     })
 
     useEffect(() => {
-        props.refArr.push(refP.current)
+        if(refP.current !== undefined) {
+            props.refArr.push(refP.current)
+        }        
     })
 
 

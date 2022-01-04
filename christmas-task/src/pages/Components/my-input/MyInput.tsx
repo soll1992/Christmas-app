@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { MouseEventHandler, FormEventHandler } from 'react'
 import './MyInput.scss'
 
-export default function MyInput(props) {
+interface Props {
+    value: string,
+    onClick: MouseEventHandler,
+    onChange: FormEventHandler,
+}
+
+export default function MyInput(props: Props) {
     return (
     <div className="input-wrapper">
         <input className='nav-input' id='input' value={props.value} type="text" placeholder='Поиск' onChange={props.onChange}/>

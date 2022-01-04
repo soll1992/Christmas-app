@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 
-export default function BgCard(props) {
+interface Props {
+    bgClass: string,
+    onClick: MouseEventHandler,
+}
+
+export default function BgCard(props: Props) {
 
     const bgClasses = `bg-card bg-${props.bgClass}`
 
