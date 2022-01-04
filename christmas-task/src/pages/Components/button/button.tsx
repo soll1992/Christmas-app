@@ -3,7 +3,7 @@ import './button.scss'
 
 type Props = {
     class: string,
-    content: string,
+    content?: string,
     onClick: MouseEventHandler,
 }
 

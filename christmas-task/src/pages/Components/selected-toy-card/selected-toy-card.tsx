@@ -13,16 +13,15 @@ interface Data {
 }
 
 interface Props {
-    value: string,
-    refArrCards: Array<React.MutableRefObject<HTMLDivElement> | null>,
-    refArr: Array<React.MutableRefObject<HTMLParagraphElement> | null>,
+    refArrCards: Array<HTMLDivElement | null>,
+    refArr: Array<HTMLParagraphElement | null>,
     dataArr: Data,
     onDragStart: DragEventHandler,
 }
 
 export default function SelectedToyCard(props: Props) {
-    const refP = useRef(null)
-    const refCard = useRef(null)
+    const refP: React.MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+    const refCard: React.MutableRefObject<HTMLDivElement | null> = useRef(null)
 
 
     useEffect(() => {

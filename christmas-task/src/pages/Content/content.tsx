@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import 'rc-slider/assets/index.css';
 import './content.scss';
-import { BallCard } from '../Components/ball-card/ball-card'
+import Toys from './toys/toys'
 import { data } from '../../data'
 import { NavLink } from '../Components/nav-link/nav-link'
 import MyInput from '../Components/my-input/MyInput'
@@ -218,13 +218,6 @@ export function Content(props: Props) {
             throw new Error('checkbox is null')
         }
     })
-
-    useEffect(() => {
-        const inputFocus = document.getElementById('input');
-        if(inputFocus !== null) {
-            inputFocus.focus()
-        }
-    }, [])
     
     useEffect(() => {
         props.setSelected(favoriteToys)
@@ -413,29 +406,7 @@ export function Content(props: Props) {
         setSelectedSort((sort.target as HTMLSelectElement).value)
         sortLogic(cards,(sort.target as HTMLSelectElement).value)
     }
-    //функция добавляет номер активной карточки в массив
-    function addActiveCardsNumInArr(e: React.MouseEvent<Element>) {
-        const index = favoriteToys.indexOf(((e.currentTarget as HTMLElement).dataset.num as string))
-        if (index !== -1) {
-            setFavoriteToys(favoriteToys.filter(item => item !== (e.currentTarget as HTMLElement).dataset.num))
-        } else {
-            favoriteToys.push(((e.currentTarget as HTMLElement).dataset.num as string))
-        }
-    }
-    //активирует или деактивирует карточку по клику, увеличивает или уменьшает счетчик игрушек
-    function cardActivator(e: React.MouseEvent<Element>) {
-        if(e.currentTarget.classList.contains('active')) {
-            e.currentTarget.classList.remove('active')
-            addActiveCardsNumInArr(e)
-            setToyCounter(toyCounter - 1)
-        } else if (!e.currentTarget.classList.contains('active') && toyCounter < 20) {
-            e.currentTarget.classList.add('active')
-            addActiveCardsNumInArr(e)
-            setToyCounter(toyCounter + 1)
-        } else if (toyCounter === 20) {
-            alert("Извините, все слоты для игрушек заполнены")
-        }
-    }
+
     //функция сброса всех фильров по клику на кнопку сброса
     function resetFilters() {
         setCards(data)
@@ -542,14 +513,7 @@ export function Content(props: Props) {
                 </div>
             </form>
         </div>
-        <div className="toys">
-            <h2 className="content-title">Игрушки</h2>
-            <div className='cards'>
-                    {cards.length ? cards.map(card => <BallCard data={card} key={+card.num} favorite={favoriteToys} onClick={e => cardActivator(e)}/> )
-                                    : <h2>Ничего не найдено</h2>
-                    }
-            </div>
-        </div>
+        <Toys cards={cards} setToyCounter={setToyCounter} toyCounter={toyCounter} setFavoriteToys={setFavoriteToys} favoriteToys={favoriteToys}/>
 
     </section>
 }

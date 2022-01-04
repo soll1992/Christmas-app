@@ -10,24 +10,35 @@ import Garland from '../Components/garland/garland';
 import SelectedToyCard  from '../Components/selected-toy-card/selected-toy-card';
 import { NavLink } from '../Components/nav-link/nav-link'
 
-export function Tree({audio, selectedToysArr}) {
+interface Data {
+    num: string,
+    name: string,
+    count: string,
+    year: string,
+    shape: string,
+    color: string,
+    size: string,
+    favorite: boolean,
+}
+
+export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selectedToysArr: Array<string>}) {
 
     const trees = [1,2,3,4,5,6]
     const bgs = [1,2,3,4,5,6,7,8,9,10]
     const lightBtns = ['multicolor', 'red', 'blue', 'yellow', 'green']
     let lightsKey = 0
     const [bgNum, setBgNum] = useState(() => {
-        const initialValue = localStorage.getItem("bgNum");
+        const initialValue = localStorage.getItem("bgNum")!;
         return +initialValue || 1;
     });
     const [treeNum, setTreeNum] = useState(() => {
-        const initialValue = localStorage.getItem("treeNum");
+        const initialValue = localStorage.getItem("treeNum")!;
         return +initialValue || 1;
     });
     const [isLight, setIsLight] = useState(false);
     const [currentColor, setCurrentColor] = useState('');
-    const defaultToys = data.filter(item => item.num < 21)
-    const [currentToys, setCurrentToys] = useState([]);
+    const defaultToys = data.filter(item => +item.num < 21)
+    const [currentToys, setCurrentToys] = useState<Array<Data>>([]);
     const [audioFlag, setAudioFlag] = useState(() => {
         const initialValue = localStorage.getItem("audioFlag");
         return initialValue || 'on';
@@ -37,19 +48,23 @@ export function Tree({audio, selectedToysArr}) {
     let tree = `tree/${treeNum}.png`
     const [isSnow, setIsSnow] = useState(() => {
         const saved = localStorage.getItem("isSnow");
-        const initialValue = JSON.parse(saved);
-        return initialValue || false;
+        if(saved !== null && saved !== undefined) {
+            const initialValue = JSON.parse(saved);
+            return initialValue        
+        } else {
+            return false
+        }
     });
     const startWidth = 120;
 
-    const isTree = useRef()
-    const mainConteiner = useRef()
+    const isTree: React.MutableRefObject<HTMLAreaElement | null> = useRef(null)
+    const mainConteiner: React.MutableRefObject<HTMLDivElement | null> = useRef(null)
 
-    let refArr = []
-    let refArrCards = []
+    let refArr: Array<HTMLParagraphElement> = []
+    let refArrCards: Array<HTMLDivElement> = []
 
     useEffect(() => {
-        localStorage.setItem("bgNum", bgNum)
+        localStorage.setItem("bgNum", String(bgNum))
     }, [bgNum])
 
     useEffect(() => {
@@ -57,7 +72,7 @@ export function Tree({audio, selectedToysArr}) {
     }, [audioFlag])
 
     useEffect(() => {
-        localStorage.setItem("treeNum", treeNum)
+        localStorage.setItem("treeNum", String(treeNum))
     }, [treeNum])
 
     useEffect(() => {
@@ -70,14 +85,9 @@ export function Tree({audio, selectedToysArr}) {
     
 
     function toggle() {
-/*         let time = localStorage.getItem("audioTime")
-        time ? audio.currentTime = +time : audio.currentTime = 0 */
         if (audio.paused) {
             audio.play()
             setAudioFlag('off')
-/*             setInterval(() => {
-                localStorage.setItem("audioTime", audio.currentTime);
-              }, 100); */
         } else {
             audio.pause()
         }
@@ -93,15 +103,15 @@ export function Tree({audio, selectedToysArr}) {
         setFirstClick(false)
     }
 
-    function changeBg(e) {
-        setBgNum(e.currentTarget.dataset.bgNum)
+    function changeBg(e: React.MouseEvent) {
+        setBgNum(Number((e.currentTarget as HTMLDivElement).dataset.bgNum))
     }
 
-    function changeTree(e) {
-        setTreeNum(e.currentTarget.dataset.treeNum)
+    function changeTree(e: React.MouseEvent) {
+        setTreeNum(Number((e.currentTarget as HTMLElement).dataset.treeNum))
     }
     
-    function garlandColor(e) {
+    function garlandColor(e: React.MouseEvent) {
         setCurrentColor(e.currentTarget.id)
         if(e.currentTarget.id === currentColor && isLight) {
             setIsLight(false)
@@ -114,81 +124,91 @@ export function Tree({audio, selectedToysArr}) {
     let onTree = false
 
     //drug and drop
-    function handleDragStart(e) {
+    function handleDragStart(e: React.DragEvent) {
         onTree = false
-        if (!e.target.classList.contains('on-tree')) {
+        if (!(e.target as HTMLElement).classList.contains('on-tree')) {
             //вынести в отдельную функцию
-            refArr.filter(item => 
-                item.dataset.pNum === e.target.dataset.num)[0]
-                .textContent--
+            let currentToyNumber = refArr.filter(item => 
+                item.dataset.pNum === (e.target as HTMLElement).dataset.num)[0]
+            currentToyNumber.textContent = String(Number(currentToyNumber.textContent) - 1)
         }
-        e.dataTransfer.setData("text", e.target.id);
+        e.dataTransfer.setData("text", (e.target as HTMLElement).id);
     }
 
-    function handleOverDrop(e) {
+    function handleOverDrop(e: React.DragEvent) {
         e.preventDefault(); 
 
         let draggedId = e.dataTransfer.getData("text");
         let draggedEl = document.getElementById(draggedId); //заменить на ссылку
 
+
+
         if (e.type !== "drop") {
             return; 
         } else {
             onTree = true 
-            draggedEl.classList.add('on-tree')      
+            draggedEl?.classList.add('on-tree')      
         } 
 
 
         moveAt(e.pageX, e.pageY)
 
 
-        function moveAt(pageX, pageY) {
-            draggedEl.style.left = pageX - mainConteiner.current.getBoundingClientRect().left - 32 + 'px';
-            draggedEl.style.top = pageY- mainConteiner.current.getBoundingClientRect().top - window.scrollY - 32 + 'px';
+        function moveAt(pageX: number, pageY: number) {
+            if(draggedEl !== null && mainConteiner.current !== null) {
+                draggedEl.style.left = pageX - mainConteiner.current.getBoundingClientRect().left - 32 + 'px';
+                draggedEl.style.top = pageY- mainConteiner.current.getBoundingClientRect().top - window.scrollY - 32 + 'px';
+            }
         }
 
-        draggedEl.parentNode.removeChild(draggedEl);
-		e.target.appendChild(draggedEl);
+        if(draggedEl !== null) {
+            draggedEl.parentNode?.removeChild(draggedEl);
+            (e.target as HTMLElement).appendChild(draggedEl);
+        }
+
+    
 
     }
 
-    function dragEnd(e) {
+    function dragEnd(e: React.DragEvent) {
         if(!onTree) {
-            e.target.parentNode.removeChild(e.target);
+            (e.target as HTMLElement).parentNode?.removeChild(e.target as HTMLElement);
             refArrCards.filter( item =>
-                item.dataset.cardNum === e.target.dataset.num)[0]
-                .appendChild(e.target)
-            e.target.style.left = 'auto'
-            e.target.style.top = 'auto';
-            e.target.classList.remove('on-tree')
+                item.dataset.cardNum === (e.target as HTMLElement).dataset.num)[0]
+                .appendChild(e.target as HTMLElement);
+            (e.target as HTMLElement).style.left = 'auto';
+            (e.target as HTMLElement).style.top = 'auto';
+            (e.target as HTMLElement).classList.remove('on-tree');
             //вынести в отдельную функцию
-            refArr.filter(item => 
-                item.dataset.pNum === e.target.dataset.num)[0]
-                .textContent++
+            let currentToyNumber = refArr.filter(item => 
+                item.dataset.pNum === (e.target as HTMLElement).dataset.num)[0]
+            currentToyNumber.textContent = String(Number(currentToyNumber.textContent) + 1)
         }
 
     }
 
     function removeToysFormTree() {
-        let nodes = [...isTree.current.childNodes]
-        nodes.forEach(item => {
-            isTree.current.removeChild(item)
-            refArrCards.filter( card =>
-                card.dataset.cardNum === item.dataset.num)[0]
-                .appendChild(item)
-            item.style.left = 'auto'
-            item.style.top = 'auto';
-            item.classList.remove('on-tree')
-            //вынести в отдельную функцию
-            refArr.filter(p => 
-                p.dataset.pNum === item.dataset.num)[0]
-                .textContent++
-        })
+        if(isTree.current !== null) {
+            let nodes = [...isTree.current.childNodes]
+            nodes.forEach(item => {
+                isTree.current?.removeChild(item)
+                refArrCards.filter( card =>
+                    card.dataset.cardNum === (item as HTMLElement).dataset.num)[0]
+                    .appendChild(item);
+                (item as HTMLElement).style.left = 'auto';
+                (item as HTMLElement).style.top = 'auto';
+                (item as HTMLElement).classList.remove('on-tree');
+                //вынести в отдельную функцию
+                let currentToyNumber = refArr.filter(p => 
+                    p.dataset.pNum === (item as HTMLElement).dataset.num)[0]
+                currentToyNumber.textContent = String(Number(currentToyNumber.textContent) + 1)
+            })
+        }
     }
 
     //Сброс настроек
 
-    function resetSettings(e) {
+    function resetSettings(e: React.MouseEvent) {
         localStorage.clear()
         setBgNum(1)
         setTreeNum(1)
