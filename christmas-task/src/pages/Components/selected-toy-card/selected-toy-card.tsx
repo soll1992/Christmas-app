@@ -1,16 +1,6 @@
 import React, {useRef, useEffect, DragEventHandler } from 'react'
 import './selected-toy-card.scss';
-
-interface Data {
-    num: string,
-    name: string,
-    count: string,
-    year: string,
-    shape: string,
-    color: string,
-    size: string,
-    favorite: boolean,
-}
+import { Data } from '../../interfaces'
 
 interface Props {
     refArrCards: Array<HTMLDivElement | null>,

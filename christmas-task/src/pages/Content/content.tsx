@@ -7,28 +7,7 @@ import { NavLink } from '../Components/nav-link/nav-link'
 import MyInput from '../Components/my-input/MyInput'
 import FilterSelect from '../Components/filter-select/filter-select'
 import Slider from 'rc-slider';
-
-interface Data {
-    num: string,
-    name: string,
-    count: string,
-    year: string,
-    shape: string,
-    color: string,
-    size: string,
-    favorite: boolean,
-}
-
-interface Filters {
-    year1: number,
-    year2: number,
-    count1: number,
-    count2: number,
-    shapes: Array<string>,
-    colors: Array<string>,
-    sizes: Array<string>,
-    name: string,
-}
+import { Data, Filters } from '../interfaces'
 
 interface Props {
     selectedToysArr: Array<number>

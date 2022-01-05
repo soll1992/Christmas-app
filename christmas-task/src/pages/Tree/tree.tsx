@@ -9,17 +9,8 @@ import Snowfall from 'react-snowfall'
 import Garland from '../Components/garland/garland';
 import SelectedToyCard  from '../Components/selected-toy-card/selected-toy-card';
 import { NavLink } from '../Components/nav-link/nav-link'
+import { Data } from '../interfaces'
 
-interface Data {
-    num: string,
-    name: string,
-    count: string,
-    year: string,
-    shape: string,
-    color: string,
-    size: string,
-    favorite: boolean,
-}
 
 export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selectedToysArr: Array<string>}) {
 
@@ -94,8 +85,6 @@ export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selecte
     }
 
     function playAudio() {
-        console.log(audioFlag)
-        console.log(firstClick)
         if (audioFlag === 'off' && firstClick) {
             audio.play()
             setAudioFlag('on')
@@ -121,9 +110,11 @@ export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selecte
 
     }
 
-    let onTree = false
-
     //drug and drop
+    let onTree = false
+    let draggedEl: HTMLElement | null = null
+
+
     function handleDragStart(e: React.DragEvent) {
         onTree = false
         if (!(e.target as HTMLElement).classList.contains('on-tree')) {
@@ -132,16 +123,11 @@ export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selecte
                 item.dataset.pNum === (e.target as HTMLElement).dataset.num)[0]
             currentToyNumber.textContent = String(Number(currentToyNumber.textContent) - 1)
         }
-        e.dataTransfer.setData("text", (e.target as HTMLElement).id);
+        draggedEl = e.target as HTMLElement
     }
 
     function handleOverDrop(e: React.DragEvent) {
         e.preventDefault(); 
-
-        let draggedId = e.dataTransfer.getData("text");
-        let draggedEl = document.getElementById(draggedId); //заменить на ссылку
-
-
 
         if (e.type !== "drop") {
             return; 

@@ -1,16 +1,6 @@
 import React from 'react'
 import { BallCard } from '../../Components/ball-card/ball-card'
-
-interface Data {
-    num: string,
-    name: string,
-    count: string,
-    year: string,
-    shape: string,
-    color: string,
-    size: string,
-    favorite: boolean,
-}
+import { Data } from '../../interfaces'
 
 interface Props {
     cards: Array<Data>,
