@@ -191,7 +191,6 @@ export function Tree({audio, selectedToysArr}: {audio: HTMLAudioElement, selecte
             })
         }
     }
-
     //Сброс настроек
 
     function resetSettings(e: React.MouseEvent) {

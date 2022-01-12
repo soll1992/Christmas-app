@@ -8,6 +8,7 @@ import MyInput from '../Components/my-input/MyInput'
 import FilterSelect from '../Components/filter-select/filter-select'
 import Slider from 'rc-slider';
 import { Data, Filters } from '../interfaces'
+import Checkbox from '../Components/checkbox/checkbox'
 
 interface Props {
     selectedToysArr: Array<number>
@@ -70,7 +71,6 @@ export function Content(props: Props) {
         localStorage.setItem("selectedToysArr", JSON.stringify(props.selectedToysArr))
       })
 
-
     //ссылки на чекбоксы
     const isBall: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
     const isBell: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
@@ -86,6 +86,11 @@ export function Content(props: Props) {
     const isMid: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
     const isBig: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
     const isFavorite: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
+
+    const shapeCheckboxes: Array<[string, React.MutableRefObject<HTMLInputElement | null>]> = [['ball', isBall], ['bell', isBell], ['cone', isCone], ['snowflake', isSnowflake], ['figurine', isFigurine]]
+    const colorCheckboxes: Array<[string, React.MutableRefObject<HTMLInputElement | null>]> = [['white', isWhite], ['yellow', isYellow], ['red', isRed], ['blue', isBlue], ['green', isGreen]]
+    const sizeCheckboxes: Array<[string, string, React.MutableRefObject<HTMLInputElement | null>]> = [['small', 'Маленький', isSmall], ['mid', 'Средний', isMid], ['big', 'Большой', isBig]]
+
 
     const checkboxShape = ['шар','колокольчик','шишка','снежинка','фигурка']
     const checkboxColor = ['белый','желтый','красный','синий','зелёный']
@@ -125,77 +130,19 @@ export function Content(props: Props) {
         localStorage.setItem("favoriteToys", JSON.stringify(favoriteToys))
     })
     //сохранение в localStorage всех checkbox
+
+    function getItemFromLocal (arr1: Array<React.MutableRefObject<HTMLInputElement | null>>, arr2: Array<string>) {
+        for (let i = 0; i < arr1.length; i++) {
+            if(arr1[i].current !== null) {
+                arr1[i].current!.checked = JSON.parse(localStorage.getItem(arr2[i])!) || false
+            } else {
+                throw new Error('checkbox is null')
+            }
+        }
+    }
+
     useEffect(() => {
-        if(isBall.current !== null) {
-            isBall.current.checked = JSON.parse(localStorage.getItem("ball")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isBell.current !== null) {
-            isBell.current.checked = JSON.parse(localStorage.getItem("bell")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isCone.current !== null) {
-            isCone.current.checked = JSON.parse(localStorage.getItem("cone")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isSnowflake.current !== null) {
-            isSnowflake.current.checked = JSON.parse(localStorage.getItem("snowflake")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isFigurine.current !== null) {
-            isFigurine.current.checked = JSON.parse(localStorage.getItem("figurine")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isWhite.current !== null) {
-            isWhite.current.checked = JSON.parse(localStorage.getItem("white")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isYellow.current !== null) {
-            isYellow.current.checked = JSON.parse(localStorage.getItem("yellow")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isRed.current !== null) {
-            isRed.current.checked = JSON.parse(localStorage.getItem("red")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isBlue.current !== null) {
-            isBlue.current.checked = JSON.parse(localStorage.getItem("blue")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isGreen.current !== null) {
-            isGreen.current.checked = JSON.parse(localStorage.getItem("green")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isSmall.current !== null) {
-            isSmall.current.checked = JSON.parse(localStorage.getItem("small")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isMid.current !== null) {
-            isMid.current.checked = JSON.parse(localStorage.getItem("mid")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isBig.current !== null) {
-            isBig.current.checked = JSON.parse(localStorage.getItem("big")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
-        if(isFavorite.current !== null) {
-            isFavorite.current.checked = JSON.parse(localStorage.getItem("favorite")!) || false
-        } else {
-            throw new Error('checkbox is null')
-        }
+        getItemFromLocal(checkboxRefs, checkboxRefNameArr)
     })
     
     useEffect(() => {
@@ -209,7 +156,6 @@ export function Content(props: Props) {
             localStorage.setItem(arr2[i], String(value === null ? console.log('null') : value.checked))
         }
     }
-
     
     
     //функция которая применяет все используемые фильтры
@@ -387,25 +333,18 @@ export function Content(props: Props) {
     }
 
     //функция сброса всех фильров по клику на кнопку сброса
+    function resetLocalStorage(arr: Array<string>) {
+        for(let i = 0; i < arr.length; i++) {
+            localStorage.setItem(arr[i], String(false))
+        }
+    }
+
     function resetFilters() {
         setCards(data)
         sortLogic(data,selectedSort)
         //пришлось дублировать с явным false, т.к. функция отображала не верное значение чекбокса
         //скорее всего связано с тем что я использовал кнопку резет для сброса чекбоксов
-        localStorage.setItem('ball', String(false))
-        localStorage.setItem('bell', String(false))
-        localStorage.setItem('cone', String(false))
-        localStorage.setItem('snowflake', String(false))
-        localStorage.setItem('figurine', String(false))
-        localStorage.setItem('white', String(false))
-        localStorage.setItem('yellow', String(false))
-        localStorage.setItem('red', String(false))
-        localStorage.setItem('blue', String(false))
-        localStorage.setItem('green', String(false))
-        localStorage.setItem('small', String(false))
-        localStorage.setItem('mid', String(false))
-        localStorage.setItem('big', String(false))
-        localStorage.setItem('favorite', String(false))
+        resetLocalStorage(checkboxRefNameArr)
         setTitle('')
         setSliderYears([1940,2021])
         setSliderCount([1,12])
@@ -440,16 +379,7 @@ export function Content(props: Props) {
             <form>
                 <div className="shape-checkboxes">
                     <h2>Форма:</h2>
-                    <input id='ball' className='custom-checkbox' ref={isBall} onClick={allFilters} type="checkbox" />
-                    <label className='ball' htmlFor="ball"></label>
-                    <input id='bell' className='custom-checkbox' ref={isBell} onClick={allFilters} type="checkbox" />
-                    <label className='bell' htmlFor="bell"></label>
-                    <input id='cone' className='custom-checkbox' ref={isCone} onClick={allFilters} type="checkbox" />
-                    <label className='cone' htmlFor="cone"></label>
-                    <input id='snowflake' className='custom-checkbox' ref={isSnowflake} onClick={allFilters} type="checkbox" />
-                    <label className='snowflake' htmlFor="snowflake"></label>
-                    <input id='figurine' className='custom-checkbox' ref={isFigurine} onClick={allFilters} type="checkbox" />
-                    <label className='figurine' htmlFor="figurine"></label>
+                    {shapeCheckboxes.map((shape, index) => <Checkbox id={shape[0]} class='custom-checkbox' refer={shape[1]} onClick={allFilters} key={index}/>)}
                 </div>
                 <div className="count-slider">
                     <h2>Количество экземпляров</h2>
@@ -461,30 +391,15 @@ export function Content(props: Props) {
                 </div>
                 <div className="color-checboxes">
                     <h2>Цвет:</h2>
-                    <input id='white' className='custom-checkbox color' ref={isWhite} onClick={allFilters} type="checkbox" />
-                    <label className='white' htmlFor="white"></label>
-                    <input id='yellow' className='custom-checkbox color' ref={isYellow} onClick={allFilters} type="checkbox" />
-                    <label className='yellow' htmlFor="yellow"></label>
-                    <input id='red' className='custom-checkbox color' ref={isRed} onClick={allFilters} type="checkbox" />
-                    <label className='red' htmlFor="red"></label>
-                    <input id='blue' className='custom-checkbox color' ref={isBlue} onClick={allFilters} type="checkbox" />
-                    <label className='blue' htmlFor="blue"></label>
-                    <input id='green' className='custom-checkbox color' ref={isGreen} onClick={allFilters} type="checkbox" />
-                    <label className='green' htmlFor="green"></label>
+                    {colorCheckboxes.map((color, index) => <Checkbox id={color[0]} class='custom-checkbox color' refer={color[1]} onClick={allFilters} key={index}/>)}
                 </div>
                 <div className="size-checkboxes">
                     <h2>Размер:</h2>
-                    <input id='small' className='custom-checkbox size margin-fix' ref={isSmall} onClick={allFilters} type="checkbox" />
-                    <label htmlFor="small">Маленький</label>
-                    <input id='mid' className='custom-checkbox size' ref={isMid} onClick={allFilters} type="checkbox" />
-                    <label htmlFor="mid">Средний</label>
-                    <input id='big' className='custom-checkbox size' ref={isBig} onClick={allFilters} type="checkbox" />
-                    <label htmlFor="big">Большой</label>
+                    {sizeCheckboxes.map((size, index) => <Checkbox id={size[0]} class='custom-checkbox size' textContent={size[1]} refer={size[2]} onClick={allFilters} key={index}/>)}
                 </div>
                 <div className="favorite-checkbox">
                     <h2>Любимые:</h2>
-                    <input id='favorite' className="custom-checkbox favorite" ref={isFavorite} onClick={allFilters} type="checkbox"/>
-                    <label htmlFor="favorite"></label>
+                    <Checkbox id='favorite' class='custom-checkbox favorite' refer={isFavorite} onClick={allFilters}/>
                 </div>
                 <div className="buttons">
                     <button className='reset-button' type='reset' onClick={resetFilters}>Сброс фильтров</button>
