@@ -1,0 +1,10 @@
+.select-head {
+    margin-top: 20px;
+    border: 2px solid red;
+    border-radius: 20px;
+    background-color: rgb(117, 247, 117);
+    cursor: pointer;
+}
+.select-head:hover {
+    border-color: yellow;
+}

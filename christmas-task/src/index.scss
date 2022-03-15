@@ -1,0 +1,30 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .git {
+        width: 100px;
+        height: 90px;
+        display: block;
+        background: url(../public/svg/github.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .git:hover {
+        opacity: 0.8;
+    }
+    .year {
+        font-size: 30px;
+    }
+    .rss {
+        width: 250px;
+        height: 90px;
+        display: block;
+        background: url(../public/svg/rss.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .rss:hover {
+        opacity: 0.8;
+    }
+}

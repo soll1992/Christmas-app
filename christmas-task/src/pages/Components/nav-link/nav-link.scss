@@ -1,0 +1,53 @@
+.nav-link__link {
+    display: block;
+    width: 35px;
+    height: 35px;
+    margin-left: 40px;
+}
+.home-link {
+    background: url(../../../../public/svg/snow.svg);
+    background-size: cover;
+}
+.tree-link {
+    background: url(../../../../public/svg/tree.svg);
+    background-size: cover;
+    transition: 0.5s;
+}
+
+.toy-link {
+  background: url(../../../../public/svg/ball-2.svg);
+  background-size: cover;
+  background-position: 50% 90%;
+  width: 40px;
+  height: 50px;
+  transition: 0.5s;
+}
+
+@keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes rot {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.home-link:hover {
+  animation: 1s linear 0s normal none infinite running rot;
+}
+
+.tree-link:hover {
+  transform: scale(2);
+}
+
+.toy-link:hover {
+  transform: scale(1.3);
+}
